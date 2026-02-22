@@ -39,11 +39,11 @@ BlendMotion uses Apple ARKit to stream 6DoF (6 Degrees of Freedom) camera motion
 
 ### 1. iOS App
 
-Download **BlendMotion** from the [App Store](#) — **$2.99**
+Download **BlendMotion** from the [App Store](#)
 
 ### 2. Blender Addon
 
-1. Purchase the addon from [Blender Market](https://blendermarket.com/products/blendmotion) — **$2.99** *(launch price — regular $8.88)*
+1. Purchase the addon from [Blender Market](https://blendermarket.com/products/blendmotion) 
 2. In Blender: `Edit → Preferences → Add-ons → Install`
 3. Select the downloaded `.zip` file and enable **BlendMotion**
 4. Open the panel: `3D Viewport → Sidebar (N) → BlendMotion tab`
@@ -117,29 +117,26 @@ No data leaves your local network. No servers, no cloud.
 - Lower **Smoothing** to 0.0–0.2
 - Reduce network congestion
 
-See [FAQ.md](FAQ.md) for more.
+See FAQ page for more.
 
 ---
 
 ## Roadmap
 
-- [ ] iPad support
-- [ ] Android support
-- [ ] Support for Maya, Cinema 4D, Unreal Engine
-- [ ] Face tracking / head tracking mode
-- [ ] Multi-device tracking
+- [ ] Possible bug fixes and enhancements depending on user reports.
+
 
 ---
 
 ## Privacy
 
-BlendMotion collects **no personal data**. All tracking data stays on your local network and is never sent to any server. See [PRIVACY_POLICY.md](PRIVACY_POLICY.md).
+BlendMotion collects **no personal data**. All tracking data stays on your local network and is never sent to any server. See Privacy page.
 
 ---
 
 ## Contact & Support
 
-📧 [skettch.dev@gmail.com](mailto:skettchdev@gmail.com)  
+📧 [skettchdev@gmail.com](mailto:skettchdev@gmail.com)  
 🛒 [Blender Market](https://blendermarket.com/products/blendmotion)
 
 We typically respond within 24–48 hours.
@@ -148,7 +145,7 @@ We typically respond within 24–48 hours.
 
 ## License
 
-See [LICENSE](LICENSE) for details.
+See LICENSE for details.
 
 ---
 
