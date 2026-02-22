@@ -1,4 +1,4 @@
-[README (2).md](https://github.com/user-attachments/files/25471674/README.2.md)
+[README.md](https://github.com/user-attachments/files/25471674/README.2.md)
 # BlendMotion 📷
 
 **Turn your iPhone into a real-time camera controller for Blender.**
