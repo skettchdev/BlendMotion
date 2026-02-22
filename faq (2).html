@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlendMotion — FAQ</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a;
+            color: #cbd5e1;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container { max-width: 680px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #333, #555);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+        }
+        .logo-text { font-size: 24px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.5px; }
+        h1 { font-size: 28px; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #64748b; }
+        
+        .faq-item {
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .faq-q {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e2e8f0;
+            padding: 18px 20px;
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .faq-q::before {
+            content: "Q";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        .faq-a {
+            padding: 0 20px 18px 60px;
+            color: #94a3b8;
+            font-size: 15px;
+        }
+        .faq-a p { margin-bottom: 10px; }
+        .faq-a p:last-child { margin-bottom: 0; }
+        .faq-a code {
+            background: rgba(255,255,255,0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        .faq-a strong { color: #cbd5e1; }
+        .faq-a ul { padding-left: 20px; margin: 8px 0; }
+        .faq-a li { margin-bottom: 6px; }
+        
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 40px 0 20px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        a { color: #60a5fa; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center;
+            font-size: 13px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="logo.png" alt="BlendMotion" class="logo-icon" style="object-fit:contain;padding:4px;">
+                <span class="logo-text">BlendMotion</span>
+            </div>
+            <h1>Frequently Asked Questions</h1>
+            <p class="subtitle">Everything you need to know about BlendMotion</p>
+        </div>
+
+        <!-- GETTING STARTED -->
+        <div class="section-title">Getting Started</div>
+        
+        <div class="faq-item">
+            <div class="faq-q">What is BlendMotion?</div>
+            <div class="faq-a">
+                <p>BlendMotion turns your iPhone into a real-time 6DoF (6 Degrees of Freedom) camera controller for Blender. Hold your phone, move it around, and the Blender camera follows your motion instantly over Wi-Fi.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">What do I need to use BlendMotion?</div>
+            <div class="faq-a">
+                <ul>
+                    <li><strong>iPhone 6S or newer</strong> (any ARKit-capable device)</li>
+                    <li><strong>Blender 4.0+</strong> on your computer</li>
+                    <li><strong>Same Wi-Fi network</strong> for both devices</li>
+                    <li>The BlendMotion Blender addon (free download)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">How do I install the Blender addon?</div>
+            <div class="faq-a">
+                <p>1. Purchase <code>BlendMotion</code> from <a href="https://blendermarket.com/products/blendmotion">Blender Market</a></p>
+                <p>2. Download the addon zip file</p>
+                <p>3. In Blender, go to <strong>Edit → Preferences → Add-ons → Install</strong></p>
+                <p>4. Select the zip file and enable it</p>
+                <p>5. Find the panel in <strong>View3D → Sidebar → BlendMotion</strong> tab</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">How do I find my computer's IP address?</div>
+            <div class="faq-a">
+                <p><strong>Mac:</strong> System Settings → Wi-Fi → Details → IP Address</p>
+                <p><strong>Windows:</strong> Open CMD, type <code>ipconfig</code>, look for "IPv4 Address"</p>
+                <p><strong>Linux:</strong> Open terminal, type <code>ip addr</code> or <code>hostname -I</code></p>
+                <p>It will look something like <code>192.168.1.xxx</code></p>
+            </div>
+        </div>
+
+        <!-- USAGE -->
+        <div class="section-title">Usage</div>
+
+        <div class="faq-item">
+            <div class="faq-q">How do I connect my iPhone to Blender?</div>
+            <div class="faq-a">
+                <p>1. In Blender, open the BlendMotion panel and click <strong>Start</strong></p>
+                <p>2. On your iPhone, enter your computer's IP address</p>
+                <p>3. Tap <strong>Connect</strong></p>
+                <p>4. The Blender panel will show "Connected" with your phone's IP</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">How should I hold my phone?</div>
+            <div class="faq-a">
+                <p>Hold your iPhone in <strong>landscape orientation</strong> (sideways, with the home button or notch on the right). This matches the natural camera orientation and gives the best tracking results.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">What does Sensitivity do?</div>
+            <div class="faq-a">
+                <p><strong>Sensitivity</strong> controls how much the Blender camera rotates relative to your phone movement. A value of 1.0 means 1:1 tracking. Higher values amplify rotation — useful for small desk movements. Lower values make it smoother for large movements.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">What does Position Scale do?</div>
+            <div class="faq-a">
+                <p><strong>Position Scale</strong> multiplies your physical movement distance in Blender. Default is 5.0, meaning moving your phone 1 meter moves the camera 5 meters in Blender. Increase it for large scenes, decrease it for tabletop work.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">What does Smoothing do?</div>
+            <div class="faq-a">
+                <p><strong>Smoothing</strong> reduces hand shake and creates more cinematic camera motion. 0.0 means no smoothing (direct tracking). 0.3–0.5 is recommended for most use cases. Higher values add more lag but smoother results.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">How do I record camera animation?</div>
+            <div class="faq-a">
+                <p>Tap the <strong>Record</strong> button on your iPhone. BlendMotion will automatically insert keyframes on every frame in Blender. Tap <strong>Stop</strong> when done. Your animation will be saved on the Blender timeline.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">What does Recalibrate do?</div>
+            <div class="faq-a">
+                <p>Clicking <strong>Recalibrate</strong> in the Blender panel resets the origin point. After recalibration, your current phone position becomes the new "zero" — the camera stays where it is, and all future movements are relative to this new position.</p>
+            </div>
+        </div>
+
+        <!-- TROUBLESHOOTING -->
+        <div class="section-title">Troubleshooting</div>
+
+        <div class="faq-item">
+            <div class="faq-q">The camera isn't moving in Blender</div>
+            <div class="faq-a">
+                <p>Check these things:</p>
+                <ul>
+                    <li>Both devices must be on the <strong>same Wi-Fi network</strong></li>
+                    <li>Make sure you entered the correct <strong>IP address</strong></li>
+                    <li>Check that your <strong>firewall</strong> isn't blocking UDP port 9090</li>
+                    <li>Verify the Blender panel shows <strong>"Connected"</strong></li>
+                    <li>Make sure you have an <strong>active camera</strong> in your Blender scene</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">The tracking says "Low features" or "Initializing"</div>
+            <div class="faq-a">
+                <p>ARKit needs visual features to track your position. Try:</p>
+                <ul>
+                    <li>Make sure the room has <strong>good lighting</strong></li>
+                    <li>Point the camera at areas with <strong>texture and contrast</strong> (not blank walls)</li>
+                    <li>Move the phone <strong>slowly</strong> at first to let ARKit initialize</li>
+                    <li>Avoid <strong>very reflective</strong> surfaces</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">The camera movement feels wrong or reversed</div>
+            <div class="faq-a">
+                <p>Make sure you're holding your phone in <strong>landscape orientation</strong> (sideways). The app is designed for landscape-right mode. If the camera drifts over time, try clicking <strong>Recalibrate</strong> in Blender.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">There's lag between my movement and Blender</div>
+            <div class="faq-a">
+                <p>Some lag is normal over Wi-Fi. To minimize it:</p>
+                <ul>
+                    <li>Use a <strong>5GHz Wi-Fi</strong> network (not 2.4GHz)</li>
+                    <li>Reduce <strong>Smoothing</strong> to 0.0–0.2</li>
+                    <li>Keep both devices <strong>close to the router</strong></li>
+                    <li>Avoid network congestion (streaming, downloads)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">Can I use a different port than 9090?</div>
+            <div class="faq-a">
+                <p>Yes. Change the port number in both the Blender panel and the iPhone app. Use any port between 1024 and 65535. Make sure your firewall allows UDP traffic on that port.</p>
+            </div>
+        </div>
+
+        <!-- GENERAL -->
+        <div class="section-title">General</div>
+
+        <div class="faq-item">
+            <div class="faq-q">Does BlendMotion work with iPad?</div>
+            <div class="faq-a">
+                <p>Currently BlendMotion is <strong>iPhone only</strong>. We're always looking to improve — stay tuned for updates.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">Does it work with Maya, Cinema 4D, or other 3D software?</div>
+            <div class="faq-a">
+                <p>Currently BlendMotion only supports <strong>Blender 4.0+</strong>. We're focused on making the Blender experience as good as possible first.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">Is BlendMotion free?</div>
+            <div class="faq-a">
+                <p>Check the <a href="https://apps.apple.com/app/blendmotion">App Store</a> for the iOS app pricing, and <a href="https://blendermarket.com/products/blendmotion">Blender Market</a> for the addon pricing.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">Does BlendMotion collect my data?</div>
+            <div class="faq-a">
+                <p>No. BlendMotion does not collect, store, or transmit any personal data. Camera tracking data stays entirely on your local network. Read our full <a href="privacy-policy.html">Privacy Policy</a> for details.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-q">How do I contact support?</div>
+            <div class="faq-a">
+                <p>Email us at skettchdev@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Skettch · <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a> · BlendMotion v1.0.0-Alpha</p>
+        </div>
+
+    </div>
+</body>
+</html>
