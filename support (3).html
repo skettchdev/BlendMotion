@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — BlendMotion</title>
+    <meta name="description" content="Get help setting up and using BlendMotion — iPhone camera tracking for Blender.">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a; color: #cbd5e1; line-height: 1.7; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .topnav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 24px;
+            background: rgba(10,14,26,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .topnav-logo { width: 32px; height: 32px; border-radius: 8px; }
+        .topnav-name { font-size: 16px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }
+        .topnav-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 500; color: #64748b; text-decoration: none;
+            padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s;
+        }
+        .topnav-back:hover { color: #cbd5e1; background: rgba(255,255,255,0.05); }
+
+        .page-header {
+            text-align: center; padding: 56px 24px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .page-header h1 { font-size: 36px; font-weight: 800; color: #f1f5f9; letter-spacing: -1px; margin-bottom: 12px; }
+        .page-header p { font-size: 16px; color: #64748b; max-width: 480px; margin: 0 auto; }
+
+        .content { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+
+        .content h2 {
+            font-size: 20px; font-weight: 700; color: #e2e8f0; margin: 40px 0 16px;
+            padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .content h2:first-child { margin-top: 0; }
+        .content p { margin-bottom: 16px; color: #94a3b8; }
+        .content code {
+            background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px;
+            font-size: 14px; color: #e2e8f0;
+        }
+        .content ol, .content ul { margin: 0 0 16px 20px; color: #94a3b8; }
+        .content li { margin-bottom: 8px; }
+        .content a { color: #60a5fa; text-decoration: none; }
+        .content a:hover { text-decoration: underline; }
+
+        .tip {
+            background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15);
+            border-radius: 12px; padding: 16px 20px; margin: 24px 0; font-size: 14px;
+        }
+        .tip strong { color: #60a5fa; }
+
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.04);
+            text-align: center; padding: 32px 24px; font-size: 13px; color: #334155;
+        }
+        footer a { color: #475569; text-decoration: none; }
+        footer a:hover { color: #64748b; }
+    </style>
+</head>
+<body>
+
+    <nav class="topnav">
+        <a href="index.html" class="topnav-brand">
+            <img src="logo.png" alt="BlendMotion" class="topnav-logo" onerror="this.style.display='none'">
+            <span class="topnav-name">BlendMotion</span>
+        </a>
+        <a href="index.html" class="topnav-back">← Back to Home</a>
+    </nav>
+
+    <div class="page-header">
+        <h1>Support</h1>
+        <p>Everything you need to get started with BlendMotion.</p>
+    </div>
+
+    <main class="content">
+        <h2>Quick Start Guide</h2>
+        <ol>
+            <li><strong>Install the Blender Addon</strong> — Download the <code>.zip</code> file from <a href="https://blendermarket.com/products/blendmotion">Blender Market</a>. In Blender, go to <code>Edit → Preferences → Add-ons → Install</code> and select the zip file.</li>
+            <li><strong>Enable the Addon</strong> — Search for "BlendMotion" in the addon list and check the box to enable it.</li>
+            <li><strong>Start the Server</strong> — Open the BlendMotion panel in the 3D viewport sidebar (<code>N</code> key) and click <strong>Start</strong>.</li>
+            <li><strong>Install the iPhone App</strong> — Download BlendMotion from the <a href="https://apps.apple.com/app/blendmotion">App Store</a>.</li>
+            <li><strong>Connect</strong> — Make sure your iPhone and computer are on the same Wi-Fi network. Enter your computer's local IP address in the app and tap <strong>Connect</strong>.</li>
+            <li><strong>Track &amp; Record</strong> — Move your iPhone to control the Blender camera. Tap <strong>Record</strong> to capture keyframes on the timeline.</li>
+        </ol>
+
+        <div class="tip">
+            <strong>💡 Tip:</strong> To find your computer's local IP, open a terminal and type <code>ipconfig</code> (Windows) or <code>ifconfig</code> (macOS/Linux). Look for the address starting with <code>192.168.</code>
+        </div>
+
+        <h2>Troubleshooting</h2>
+        <p><strong>Can't connect?</strong> Ensure both devices are on the same Wi-Fi network. Check that your firewall isn't blocking the UDP port used by BlendMotion.</p>
+        <p><strong>Laggy tracking?</strong> Close other apps on your iPhone and reduce the distance to your Wi-Fi router for a stronger signal.</p>
+        <p><strong>Addon not showing up?</strong> Make sure you're running Blender 4.0 or later. Try restarting Blender after installation.</p>
+
+        <h2>Contact Us</h2>
+        <p>Still need help? Reach out at <a href="mailto:sketcchdev@gmail.com">sketcchdev@gmail.com</a> and we'll get back to you as soon as possible.</p>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Skettch · <a href="mailto:sketcchdev@gmail.com">sketcchdev@gmail.com</a> · BlendMotion v1.0.0-Alpha</p>
+    </footer>
+
+</body>
+</html>
