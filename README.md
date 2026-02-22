@@ -139,7 +139,7 @@ BlendMotion collects **no personal data**. All tracking data stays on your local
 
 ## Contact & Support
 
-📧 [skettch.dev@gmail.com](mailto:skettch.dev@gmail.com)  
+📧 [skettch.dev@gmail.com](mailto:skettchdev@gmail.com)  
 🛒 [Blender Market](https://blendermarket.com/products/blendmotion)
 
 We typically respond within 24–48 hours.
