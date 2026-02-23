@@ -14,24 +14,21 @@
             background: #0a0e1a; color: #cbd5e1; line-height: 1.7; min-height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
-
         .topnav {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 24px;
-            background: rgba(10,14,26,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 14px 24px; background: rgba(10,14,26,0.85);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky; top: 0; z-index: 100;
         }
         .topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .topnav-logo { width: 32px; height: 32px; border-radius: 8px; }
-        .topnav-name { font-size: 16px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }
+        .topnav-name { font-size: 16px; font-weight: 700; color: #f1f5f9; }
         .topnav-back {
-            display: inline-flex; align-items: center; gap: 6px;
             font-size: 13px; font-weight: 500; color: #64748b; text-decoration: none;
             padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s;
         }
         .topnav-back:hover { color: #cbd5e1; background: rgba(255,255,255,0.05); }
-
         .page-header {
             text-align: center; padding: 56px 24px 40px;
             background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
@@ -39,36 +36,53 @@
         }
         .page-header h1 { font-size: 36px; font-weight: 800; color: #f1f5f9; letter-spacing: -1px; margin-bottom: 12px; }
         .page-header p { font-size: 16px; color: #64748b; max-width: 480px; margin: 0 auto; }
-
         .content { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
-
         .content h2 {
             font-size: 20px; font-weight: 700; color: #e2e8f0; margin: 40px 0 16px;
             padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .content h2:first-child { margin-top: 0; }
         .content p { margin-bottom: 16px; color: #94a3b8; }
-        .content code {
-            background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px;
-            font-size: 14px; color: #e2e8f0;
-        }
+        .content code { background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px; font-size: 14px; color: #e2e8f0; }
         .content ol, .content ul { margin: 0 0 16px 20px; color: #94a3b8; }
         .content li { margin-bottom: 8px; }
         .content a { color: #60a5fa; text-decoration: none; }
         .content a:hover { text-decoration: underline; }
-
         .tip {
             background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.15);
             border-radius: 12px; padding: 16px 20px; margin: 24px 0; font-size: 14px;
         }
         .tip strong { color: #60a5fa; }
-
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); max-width: 680px; margin: 0 auto; }
+        .res-section { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+        .res-label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #3b82f6; margin-bottom: 12px; }
+        .res-section h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 24px; }
+        .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+        .res-card {
+            display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 20px; text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .res-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.10); transform: translateY(-2px); }
+        .res-icon {
+            width: 44px; height: 44px; background: rgba(255,255,255,0.04); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+        }
+        .res-card-label { font-size: 15px; font-weight: 600; color: #e2e8f0; }
+        .res-card-desc { font-size: 13px; color: #475569; margin-top: 2px; }
         footer {
-            border-top: 1px solid rgba(255,255,255,0.04);
-            text-align: center; padding: 32px 24px; font-size: 13px; color: #334155;
+            border-top: 1px solid rgba(255,255,255,0.04); text-align: center;
+            padding: 32px 24px; font-size: 13px; color: #334155;
         }
         footer a { color: #475569; text-decoration: none; }
         footer a:hover { color: #64748b; }
+        @media (max-width: 600px) {
+            .page-header { padding: 40px 20px 32px; }
+            .page-header h1 { font-size: 28px; }
+            .content { padding: 32px 20px 48px; }
+            .res-section { padding: 32px 20px 48px; }
+            .res-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -78,7 +92,7 @@
             <img src="logo.png" alt="BlendMotion" class="topnav-logo" onerror="this.style.display='none'">
             <span class="topnav-name">BlendMotion</span>
         </a>
-        <a href="index.html" class="topnav-back">← Back to Home</a>
+        <a href="index.html" class="topnav-back">&#8592; Back to Home</a>
     </nav>
 
     <div class="page-header">
@@ -89,16 +103,21 @@
     <main class="content">
         <h2>Quick Start Guide</h2>
         <ol>
-            <li><strong>Install the Blender Addon</strong> — Download the <code>.zip</code> file from <a href="https://blendermarket.com/products/blendmotion">Blender Market</a>. In Blender, go to <code>Edit → Preferences → Add-ons → Install</code> and select the zip file.</li>
-            <li><strong>Enable the Addon</strong> — Search for "BlendMotion" in the addon list and check the box to enable it.</li>
-            <li><strong>Start the Server</strong> — Open the BlendMotion panel in the 3D viewport sidebar (<code>N</code> key) and click <strong>Start</strong>.</li>
-            <li><strong>Install the iPhone App</strong> — Download BlendMotion from the <a href="https://apps.apple.com/app/blendmotion">App Store</a>.</li>
-            <li><strong>Connect</strong> — Make sure your iPhone and computer are on the same Wi-Fi network. Enter your computer's local IP address in the app and tap <strong>Connect</strong>.</li>
-            <li><strong>Track &amp; Record</strong> — Move your iPhone to control the Blender camera. Tap <strong>Record</strong> to capture keyframes on the timeline.</li>
+            <li><strong>Install the Blender Addon</strong> &#8212; Download the <code>.zip</code> file from <a href="https://blendermarket.com/products/blendmotion">Blender Market</a>. In Blender, go to <code>Edit &#8594; Preferences &#8594; Add-ons &#8594; Install</code> and select the zip file.</li>
+            <li><strong>Enable the Addon</strong> &#8212; Search for "BlendMotion" in the addon list and check the box to enable it.</li>
+            <li><strong>Start the Server</strong> &#8212; Open the BlendMotion panel in the 3D viewport sidebar (<code>N</code> key) and click <strong>Start</strong>.</li>
+            <li><strong>Install the iPhone App</strong> &#8212; Download BlendMotion from the <a href="https://apps.apple.com/app/blendmotion">App Store</a>.</li>
+            <li><strong>Connect</strong> &#8212; Make sure your iPhone and computer are on the same Wi-Fi network. Enter your computer's local IP address in the app and tap <strong>Connect</strong>.</li>
+            <li><strong>Track &amp; Record</strong> &#8212; Move your iPhone to control the Blender camera. Tap <strong>Record</strong> to capture keyframes on the timeline.</li>
         </ol>
 
         <div class="tip">
-            <strong>💡 Tip:</strong> To find your computer's local IP, open a terminal and type <code>ipconfig</code> (Windows) or <code>ifconfig</code> (macOS/Linux). Look for the address starting with <code>192.168.</code>
+            <strong>&#128161; Tip:</strong> To find your computer's local IP, open a terminal and type <code>ipconfig</code> (Windows) or <code>ifconfig</code> (macOS/Linux). Look for the address starting with <code>192.168.</code>
+        </div>
+
+        <div class="tip">
+            <strong>&#128247; Tip:</strong> Always hold your iPhone in <strong>landscape orientation</strong> (sideways) for the best tracking results. This matches Blender's camera orientation and gives you natural, cinematic motion.
+            <img src="landscape-tip.gif" alt="Hold your iPhone in landscape orientation" style="display:block;width:100%;max-width:480px;margin:16px auto 0;border-radius:10px;border:1px solid rgba(255,255,255,0.08);">
         </div>
 
         <h2>Troubleshooting</h2>
@@ -110,45 +129,32 @@
         <p>Still need help? Reach out at <a href="mailto:sketcchdev@gmail.com">sketcchdev@gmail.com</a> and we'll get back to you as soon as possible.</p>
     </main>
 
-
-    <!-- Resources -->
-    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.05);max-width:680px;margin:0 auto;">
-    <section style="max-width:680px;margin:0 auto;padding:48px 24px 64px;">
-        <div style="font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#3b82f6;margin-bottom:12px;">Resources</div>
-        <h2 style="font-size:22px;font-weight:700;color:#f1f5f9;margin-bottom:24px;letter-spacing:-0.3px;">Documentation &amp; Support</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
-            <a href="index.html" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:20px;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.05)';this.style.transform='none'">
-                <div style="width:44px;height:44px;background:rgba(255,255,255,0.04);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;" aria-hidden="true">🏠</div>
-                <div>
-                    <div style="font-size:15px;font-weight:600;color:#e2e8f0;">Home</div>
-                    <div style="font-size:13px;color:#475569;margin-top:2px;">Back to main page</div>
-                </div>
+    <hr class="divider">
+    <section class="res-section">
+        <div class="res-label">Resources</div>
+        <h2>Documentation &amp; Support</h2>
+        <div class="res-grid">
+            <a href="index.html" class="res-card">
+                <div class="res-icon">&#127968;</div>
+                <div><div class="res-card-label">Home</div><div class="res-card-desc">Back to main page</div></div>
             </a>
-            <a href="faq.html" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:20px;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.05)';this.style.transform='none'">
-                <div style="width:44px;height:44px;background:rgba(255,255,255,0.04);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;" aria-hidden="true">❓</div>
-                <div>
-                    <div style="font-size:15px;font-weight:600;color:#e2e8f0;">FAQ</div>
-                    <div style="font-size:13px;color:#475569;margin-top:2px;">Common questions answered</div>
-                </div>
+            <a href="faq.html" class="res-card">
+                <div class="res-icon">&#10067;</div>
+                <div><div class="res-card-label">FAQ</div><div class="res-card-desc">Common questions answered</div></div>
             </a>
-            <a href="privacy-policy.html" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:20px;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.05)';this.style.transform='none'">
-                <div style="width:44px;height:44px;background:rgba(255,255,255,0.04);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;" aria-hidden="true">🔒</div>
-                <div>
-                    <div style="font-size:15px;font-weight:600;color:#e2e8f0;">Privacy Policy</div>
-                    <div style="font-size:13px;color:#475569;margin-top:2px;">No data collected, ever</div>
-                </div>
+            <a href="privacy-policy.html" class="res-card">
+                <div class="res-icon">&#128274;</div>
+                <div><div class="res-card-label">Privacy Policy</div><div class="res-card-desc">No data collected, ever</div></div>
             </a>
-            <a href="terms.html" style="display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:14px;padding:20px;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)';this.style.borderColor='rgba(255,255,255,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.02)';this.style.borderColor='rgba(255,255,255,0.05)';this.style.transform='none'">
-                <div style="width:44px;height:44px;background:rgba(255,255,255,0.04);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;" aria-hidden="true">📄</div>
-                <div>
-                    <div style="font-size:15px;font-weight:600;color:#e2e8f0;">Terms of Use</div>
-                    <div style="font-size:13px;color:#475569;margin-top:2px;">License &amp; usage terms</div>
-                </div>
+            <a href="terms.html" class="res-card">
+                <div class="res-icon">&#128196;</div>
+                <div><div class="res-card-label">Terms of Use</div><div class="res-card-desc">License &amp; usage terms</div></div>
             </a>
         </div>
     </section>
+
     <footer>
-        <p>&copy; 2026 Skettch · <a href="mailto:sketcchdev@gmail.com">sketcchdev@gmail.com</a> · BlendMotion v1.0.0-Alpha</p>
+        <p>&copy; 2026 Skettch &middot; <a href="mailto:sketcchdev@gmail.com">sketcchdev@gmail.com</a> &middot; BlendMotion v1.0.0-Alpha</p>
     </footer>
 
 </body>
