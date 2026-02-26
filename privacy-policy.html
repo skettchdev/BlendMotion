@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — BlendMotion</title>
+    <meta name="description" content="BlendMotion privacy policy. No data collected, ever.">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a; color: #cbd5e1; line-height: 1.7; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .topnav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 24px; background: rgba(10,14,26,0.85);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .topnav-logo { width: 32px; height: 32px; border-radius: 8px; }
+        .topnav-name { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+        .topnav-back {
+            font-size: 13px; font-weight: 500; color: #64748b; text-decoration: none;
+            padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s;
+        }
+        .topnav-back:hover { color: #cbd5e1; background: rgba(255,255,255,0.05); }
+        .page-header {
+            text-align: center; padding: 56px 24px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .page-header h1 { font-size: 36px; font-weight: 800; color: #f1f5f9; letter-spacing: -1px; margin-bottom: 12px; }
+        .page-header p { font-size: 16px; color: #64748b; max-width: 480px; margin: 0 auto; }
+        .content { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+        .content h2 {
+            font-size: 20px; font-weight: 700; color: #e2e8f0; margin: 36px 0 12px;
+            padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .content h2:first-child { margin-top: 0; }
+        .content p { margin-bottom: 14px; color: #94a3b8; }
+        .content a { color: #60a5fa; text-decoration: none; }
+        .content a:hover { text-decoration: underline; }
+        .effective { font-size: 13px; color: #475569; margin-bottom: 32px; }
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); max-width: 680px; margin: 0 auto; }
+        .res-section { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+        .res-label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #3b82f6; margin-bottom: 12px; }
+        .res-section h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 24px; border: none; padding: 0; }
+        .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+        .res-card {
+            display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 20px; text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .res-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.10); transform: translateY(-2px); }
+        .res-icon {
+            width: 44px; height: 44px; background: rgba(255,255,255,0.04); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+        }
+        .res-card-label { font-size: 15px; font-weight: 600; color: #e2e8f0; }
+        .res-card-desc { font-size: 13px; color: #475569; margin-top: 2px; }
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.04); text-align: center;
+            padding: 32px 24px; font-size: 13px; color: #334155;
+        }
+        footer a { color: #475569; text-decoration: none; }
+        footer a:hover { color: #64748b; }
+        @media (max-width: 600px) {
+            .page-header { padding: 40px 20px 32px; }
+            .page-header h1 { font-size: 28px; }
+            .content { padding: 32px 20px 48px; }
+            .res-section { padding: 32px 20px 48px; }
+            .res-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="topnav">
+        <a href="index.html" class="topnav-brand">
+            <img src="logo.png" alt="BlendMotion" class="topnav-logo" onerror="this.style.display='none'">
+            <span class="topnav-name">BlendMotion</span>
+        </a>
+        <a href="index.html" class="topnav-back">&#8592; Back to Home</a>
+    </nav>
+
+    <div class="page-header">
+        <h1>Privacy Policy</h1>
+        <p>Your privacy matters. Here's what we do &#8212; and don't do &#8212; with your data.</p>
+    </div>
+
+    <main class="content">
+        <p class="effective">Effective date: January 1, 2026</p>
+
+        <h2>Overview</h2>
+        <p>BlendMotion is designed with privacy at its core. The app does not collect, store, or transmit any personal data to external servers.</p>
+
+        <h2>Data Collection</h2>
+        <p>BlendMotion does <strong>not</strong> collect any of the following: personal information (name, email, etc.), device identifiers or analytics, usage or tracking data, location data, or camera/microphone recordings.</p>
+
+        <h2>Network Communication</h2>
+        <p>BlendMotion communicates exclusively over your local Wi-Fi network using UDP packets. Motion data is sent directly from your iPhone to the Blender addon running on your computer. No data leaves your local network.</p>
+
+        <h2>Third-Party Services</h2>
+        <p>BlendMotion does not integrate any third-party analytics, advertising, or tracking services.</p>
+
+        <h2>Data Storage</h2>
+        <p>No user data is stored on-device or on any remote server by BlendMotion. The only data persisted locally is your connection settings (IP address and port), which remain on your device.</p>
+
+        <h2>Children's Privacy</h2>
+        <p>BlendMotion does not knowingly collect data from anyone, including children under the age of 13.</p>
+
+        <h2>Changes to This Policy</h2>
+        <p>If we update this policy, the changes will be posted on this page with a revised effective date.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy? Contact us at <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a>.</p>
+    </main>
+
+    <hr class="divider">
+    <section class="res-section">
+        <div class="res-label">Resources</div>
+        <h2>Documentation &amp; Support</h2>
+        <div class="res-grid">
+            <a href="index.html" class="res-card">
+                <div class="res-icon">&#127968;</div>
+                <div><div class="res-card-label">Home</div><div class="res-card-desc">Back to main page</div></div>
+            </a>
+            <a href="support.html" class="res-card">
+                <div class="res-icon">&#128640;</div>
+                <div><div class="res-card-label">Support</div><div class="res-card-desc">Quick start &amp; help</div></div>
+            </a>
+            <a href="faq.html" class="res-card">
+                <div class="res-icon">&#10067;</div>
+                <div><div class="res-card-label">FAQ</div><div class="res-card-desc">Common questions answered</div></div>
+            </a>
+            <a href="docs.html" class="res-card">
+                <div class="res-icon">&#128214;</div>
+                <div><div class="res-card-label">Panel Reference</div><div class="res-card-desc">Every control explained</div></div>
+            </a>
+            <a href="terms.html" class="res-card">
+                <div class="res-icon">&#128196;</div>
+                <div><div class="res-card-label">Terms of Use</div><div class="res-card-desc">License &amp; usage terms</div></div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a> &middot; BlendMotion v1.0.0-Alpha</p>
+    </footer>
+
+</body>
+</html>
