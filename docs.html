@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Reference — BlendMotion</title>
+    <meta name="description" content="Complete reference guide for the BlendMotion Blender addon panel. Every control explained with screenshots.">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a; color: #cbd5e1; line-height: 1.7; min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .topnav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 24px; background: rgba(10,14,26,0.85);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .topnav-logo { width: 32px; height: 32px; border-radius: 8px; }
+        .topnav-name { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+        .topnav-back {
+            font-size: 13px; font-weight: 500; color: #64748b; text-decoration: none;
+            padding: 6px 12px; border-radius: 8px; transition: color 0.2s, background 0.2s;
+        }
+        .topnav-back:hover { color: #cbd5e1; background: rgba(255,255,255,0.05); }
+        .page-header {
+            text-align: center; padding: 56px 24px 40px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .page-header h1 { font-size: 36px; font-weight: 800; color: #f1f5f9; letter-spacing: -1px; margin-bottom: 12px; }
+        .page-header p { font-size: 16px; color: #64748b; max-width: 540px; margin: 0 auto; }
+
+        /* Table of Contents */
+        .toc { max-width: 680px; margin: 0 auto; padding: 40px 24px 0; }
+        .toc-label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #3b82f6; margin-bottom: 16px; }
+        .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .toc-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; border-radius: 10px;
+            text-decoration: none; color: #94a3b8; font-size: 14px; font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+        .toc-item:hover { background: rgba(255,255,255,0.04); color: #e2e8f0; }
+        .toc-num {
+            width: 24px; height: 24px; border-radius: 6px;
+            background: rgba(59,130,246,0.1); color: #60a5fa;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; flex-shrink: 0;
+        }
+
+        /* Content */
+        .content { max-width: 900px; margin: 0 auto; padding: 48px 24px 64px; }
+        .ref-section { margin-bottom: 56px; scroll-margin-top: 80px; }
+        .ref-section:last-child { margin-bottom: 0; }
+        .ref-header {
+            display: flex; align-items: center; gap: 14px;
+            margin-bottom: 24px; padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .ref-num {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: rgba(59,130,246,0.12); color: #60a5fa;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; font-weight: 700; flex-shrink: 0;
+        }
+        .ref-header h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.3px; }
+
+        /* Card */
+        .ref-card {
+            display: grid; grid-template-columns: 320px 1fr; gap: 32px; align-items: start;
+            background: rgba(255,255,255,0.015); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px; padding: 24px;
+        }
+        .ref-screenshot {
+            border-radius: 10px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08); background: #12162a;
+        }
+        .ref-screenshot img { display: block; width: 100%; height: auto; }
+
+        /* Wide card variant for landscape iPhone screenshots */
+        .ref-card-wide {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        .ref-screenshot-wide { max-width: 100%; }
+
+        .ref-body h3 { font-size: 16px; font-weight: 600; color: #e2e8f0; margin-bottom: 10px; }
+        .ref-body p { font-size: 15px; color: #94a3b8; margin-bottom: 14px; }
+        .ref-body p:last-child { margin-bottom: 0; }
+        .ref-body code {
+            background: rgba(255,255,255,0.06); padding: 2px 7px;
+            border-radius: 4px; font-size: 13px; color: #e2e8f0;
+        }
+        .ref-body strong { color: #cbd5e1; }
+        .ref-body a { color: #60a5fa; text-decoration: none; }
+        .ref-body a:hover { text-decoration: underline; }
+
+        /* Detail Table */
+        .detail-table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+        .detail-table td {
+            padding: 7px 0; font-size: 14px; color: #94a3b8;
+            vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .detail-table td:first-child {
+            font-weight: 600; color: #cbd5e1; width: 130px;
+            padding-right: 12px; white-space: nowrap;
+        }
+
+        /* Tip */
+        .ref-tip {
+            background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.14);
+            border-radius: 10px; padding: 12px 16px; margin-top: 14px; font-size: 14px;
+        }
+        .ref-tip strong { color: #60a5fa; }
+
+        /* Value pill */
+        .val {
+            display: inline-block; background: rgba(255,255,255,0.06);
+            padding: 1px 8px; border-radius: 4px; font-size: 13px;
+            color: #e2e8f0; font-family: 'SF Mono', 'Fira Code', monospace;
+        }
+
+        /* Preset table */
+        .preset-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+        .preset-table th {
+            text-align: left; padding: 8px 10px; color: #64748b; font-weight: 600;
+            font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .preset-table td {
+            padding: 7px 10px; color: #94a3b8;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .preset-table td:first-child { color: #e2e8f0; font-weight: 500; }
+        .preset-table tr:last-child td { border-bottom: none; }
+
+        /* Divider, Resources, Footer — matching other pages */
+        .divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); max-width: 900px; margin: 0 auto; }
+        .res-section { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
+        .res-label { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #3b82f6; margin-bottom: 12px; }
+        .res-section h2 { font-size: 22px; font-weight: 700; color: #f1f5f9; margin-bottom: 24px; }
+        .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+        .res-card {
+            display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 20px; text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.15s;
+        }
+        .res-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.10); transform: translateY(-2px); }
+        .res-icon {
+            width: 44px; height: 44px; background: rgba(255,255,255,0.04); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+        }
+        .res-card-label { font-size: 15px; font-weight: 600; color: #e2e8f0; }
+        .res-card-desc { font-size: 13px; color: #475569; margin-top: 2px; }
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.04); text-align: center;
+            padding: 32px 24px; font-size: 13px; color: #334155;
+        }
+        footer a { color: #475569; text-decoration: none; }
+        footer a:hover { color: #64748b; }
+
+        @media (max-width: 780px) {
+            .ref-card { grid-template-columns: 1fr; gap: 20px; }
+            .ref-screenshot { max-width: 360px; }
+            .toc-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .page-header { padding: 40px 20px 32px; }
+            .page-header h1 { font-size: 28px; }
+            .content { padding: 32px 20px 48px; }
+            .toc { padding: 28px 20px 0; }
+            .ref-card { padding: 16px; }
+            .res-section { padding: 32px 20px 48px; }
+            .res-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="topnav">
+        <a href="index.html" class="topnav-brand">
+            <img src="logo.png" alt="BlendMotion" class="topnav-logo" onerror="this.style.display='none'">
+            <span class="topnav-name">BlendMotion</span>
+        </a>
+        <a href="index.html" class="topnav-back">&#8592; Back to Home</a>
+    </nav>
+
+    <div class="page-header">
+        <h1>Panel Reference</h1>
+        <p>A complete guide to every control in the BlendMotion Blender addon panel.</p>
+    </div>
+
+    <nav class="toc">
+        <div class="toc-label">On this page</div>
+        <div class="toc-grid">
+            <a href="#overview" class="toc-item"><span class="toc-num">1</span> Panel Overview</a>
+            <a href="#preflight" class="toc-item"><span class="toc-num">2</span> Preflight Checklist</a>
+            <a href="#port" class="toc-item"><span class="toc-num">3</span> Port</a>
+            <a href="#tracking" class="toc-item"><span class="toc-num">4</span> Tracking Mode</a>
+            <a href="#controls" class="toc-item"><span class="toc-num">5</span> Controls</a>
+            <a href="#sliders" class="toc-item"><span class="toc-num">6</span> Sliders</a>
+            <a href="#presets" class="toc-item"><span class="toc-num">7</span> Presets</a>
+            <a href="#postfx" class="toc-item"><span class="toc-num">8</span> Post FX</a>
+            <a href="#iphone-connect" class="toc-item"><span class="toc-num">9</span> iPhone &#8212; Connect</a>
+            <a href="#iphone-tracking" class="toc-item"><span class="toc-num">10</span> iPhone &#8212; Tracking</a>
+        </div>
+    </nav>
+
+    <main class="content">
+
+        <!-- 1. Panel Overview -->
+        <section class="ref-section" id="overview">
+            <div class="ref-header">
+                <div class="ref-num">1</div>
+                <h2>Panel Overview</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss1.jpg" alt="BlendMotion full panel view showing all controls in idle state" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>The BlendMotion Panel</h3>
+                    <p>The BlendMotion panel lives in Blender's <strong>3D Viewport Sidebar</strong>. Open it by pressing <code>N</code> in the viewport, then click the <strong>BlendMotion</strong> tab.</p>
+                    <p>The panel is organized from top to bottom in the order you'll use it:</p>
+                    <table class="detail-table">
+                        <tr><td>Preflight</td><td>Auto-checks your setup before you start</td></tr>
+                        <tr><td>Port</td><td>UDP port for communication (default 9090)</td></tr>
+                        <tr><td>Tracking</td><td>Choose Full 6DoF or Rotation Only</td></tr>
+                        <tr><td>Controls</td><td>View Through Camera toggle and Start/Stop</td></tr>
+                        <tr><td>Sliders</td><td>Sensitivity, Smoothing, Position Scale, Dolly Smooth</td></tr>
+                        <tr><td>Presets</td><td>One-click parameter sets for common use cases</td></tr>
+                        <tr><td>Post FX</td><td>Post-recording tools: Smooth and Bake to World</td></tr>
+                    </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> The panel version is shown at the top (<strong>v1.0.0-Alpha</strong>). If you ever need support, mention this version number.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Preflight Checklist -->
+        <section class="ref-section" id="preflight">
+            <div class="ref-header">
+                <div class="ref-num">2</div>
+                <h2>Preflight Checklist</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss6.jpg" alt="Preflight Checklist showing IP address, camera status, port availability, and scene FPS" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Automatic Setup Verification</h3>
+                    <p>The Preflight Checklist runs automatically every time you open the panel. It verifies everything you need before connecting your iPhone.</p>
+                    <table class="detail-table">
+                        <tr><td>Your IP</td><td>Your computer's local IP address on the current Wi-Fi network. Click the <strong>&#128203; copy</strong> button to copy it, then paste it into the iPhone app.</td></tr>
+                        <tr><td>Camera</td><td>Confirms your scene has an <strong>active camera</strong>. If not, add one with <code>Shift+A &#8594; Camera</code> and press <code>Ctrl+Numpad 0</code> to set it as active.</td></tr>
+                        <tr><td>Port</td><td>Checks that the selected UDP port (default <span class="val">9090</span>) is available and not in use by another application.</td></tr>
+                        <tr><td>Scene FPS</td><td>Shows your current scene frame rate. Recording keyframes will use this FPS value.</td></tr>
+                    </table>
+                    <p>The &#8505;&#65039; reminder at the bottom reminds you to keep your iPhone on the <strong>same Wi-Fi network</strong> and to hold it in <strong>landscape</strong> orientation.</p>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> All items should show &#10003; before you press Start. If any item has a warning, fix it first &#8212; the checklist tells you exactly what's wrong.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Port -->
+        <section class="ref-section" id="port">
+            <div class="ref-header">
+                <div class="ref-num">3</div>
+                <h2>Port</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss5.jpg" alt="Port field showing UDP port 9090" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>UDP Communication Port</h3>
+                    <p>This is the UDP port BlendMotion uses to receive motion data from your iPhone. The default value is <span class="val">9090</span> and works for most users.</p>
+                    <table class="detail-table">
+                        <tr><td>Default</td><td><span class="val">9090</span></td></tr>
+                        <tr><td>Range</td><td><span class="val">1024</span> &ndash; <span class="val">65535</span></td></tr>
+                        <tr><td>Protocol</td><td>UDP (low-latency, no handshake)</td></tr>
+                    </table>
+                    <p>If port 9090 is already in use by another application, the Preflight Checklist will warn you. Simply change the port number here and use the <strong>same port</strong> in the iPhone app.</p>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> If you can't connect, make sure your firewall allows UDP traffic on this port. On macOS, you'll see a system prompt the first time.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Tracking Mode -->
+        <section class="ref-section" id="tracking">
+            <div class="ref-header">
+                <div class="ref-num">4</div>
+                <h2>Tracking Mode</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss7.jpg" alt="Tracking Mode dropdown showing Full 6DoF and Rotation Only options" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Choose How Your Camera Moves</h3>
+                    <p>The Tracking Mode dropdown lets you choose between two motion capture modes:</p>
+                    <table class="detail-table">
+                        <tr><td>Full (6DoF)</td><td><strong>Default.</strong> Tracks both <strong>rotation</strong> (pan, tilt, roll) and <strong>position</strong> (forward, sideways, up/down). Use this for handheld shots, walk-throughs, and any scene where the camera physically moves.</td></tr>
+                        <tr><td>Rotation Only</td><td>Tracks only <strong>rotation</strong>. The camera stays locked in place. Perfect for tripod shots, panoramic sweeps, look-around scenes, or when your camera is parented to an object and you only want to add organic rotation on top.</td></tr>
+                    </table>
+                    <p>When <strong>Rotation Only</strong> is selected, the Position Scale slider is automatically hidden since it doesn't apply.</p>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> If your camera is <strong>parented to a path or object</strong>, Rotation Only gives you a natural "operator on a dolly" feel &#8212; the parent handles movement, your hand controls where the camera looks.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Controls -->
+        <section class="ref-section" id="controls">
+            <div class="ref-header">
+                <div class="ref-num">5</div>
+                <h2>Controls</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss4.jpg" alt="View Through Camera checkbox and Start button" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>View Through Camera &amp; Start</h3>
+                    <table class="detail-table">
+                        <tr><td>View Through Camera</td><td>When checked, the 3D viewport automatically locks to the active camera view when tracking starts. This way you see exactly what the camera sees in real time. Uncheck if you want to observe the camera from a different angle while tracking.</td></tr>
+                        <tr><td>Start / Stop</td><td>Click <strong>Start</strong> to begin listening for iPhone data. The button changes to <strong>Stop</strong> while active. The panel will show "Connected" with your iPhone's IP once the first packet arrives.</td></tr>
+                    </table>
+                    <p>Once connected, additional controls appear: <strong>Recalibrate</strong> (resets the origin point to your current hand position) and a live status display showing rotation and position values.</p>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> You can start the Blender side <em>before</em> connecting from the iPhone. BlendMotion will wait patiently for the first packet.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Sliders -->
+        <section class="ref-section" id="sliders">
+            <div class="ref-header">
+                <div class="ref-num">6</div>
+                <h2>Sliders</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss4.jpg" alt="Sensitivity, Smoothing, Position Scale, and Dolly Smooth sliders" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Fine-Tune Your Camera Motion</h3>
+
+                    <p><strong>Sensitivity</strong> &#8212; Controls how much the Blender camera rotates relative to your phone movement.</p>
+                    <table class="detail-table">
+                        <tr><td>Range</td><td><span class="val">0.10</span> &#8211; <span class="val">3.00</span></td></tr>
+                        <tr><td>Default</td><td><span class="val">1.00</span> (1:1 tracking)</td></tr>
+                        <tr><td>Low (&lt;1.0)</td><td>Dampens rotation &#8212; good for large sweeping motions</td></tr>
+                        <tr><td>High (&gt;1.0)</td><td>Amplifies rotation &#8212; good for small desk movements</td></tr>
+                    </table>
+
+                    <p><strong>Smoothing</strong> &#8212; Reduces hand shake for smoother, more cinematic motion.</p>
+                    <table class="detail-table">
+                        <tr><td>Range</td><td><span class="val">0.00</span> &#8211; <span class="val">0.95</span></td></tr>
+                        <tr><td>Default</td><td><span class="val">0.30</span></td></tr>
+                        <tr><td>0.0</td><td>No smoothing &#8212; raw, direct tracking</td></tr>
+                        <tr><td>0.3 &#8211; 0.5</td><td>Recommended for most use cases</td></tr>
+                        <tr><td>&gt;0.7</td><td>Very smooth, but adds noticeable lag</td></tr>
+                    </table>
+
+                    <p><strong>Position Scale</strong> &#8212; Multiplies your physical movement distance in Blender.</p>
+                    <table class="detail-table">
+                        <tr><td>Range</td><td><span class="val">0.10</span> &#8211; <span class="val">50.00</span></td></tr>
+                        <tr><td>Default</td><td><span class="val">5.00</span></td></tr>
+                        <tr><td>Low (&lt;3)</td><td>Tabletop / small-scale scenes</td></tr>
+                        <tr><td>High (&gt;10)</td><td>Large architectural / landscape scenes</td></tr>
+                    </table>
+
+                    <p><strong>Dolly Smooth</strong> &#8212; Extra smoothing for position only. Most useful when your camera is <strong>parented to an object</strong>.</p>
+                    <table class="detail-table">
+                        <tr><td>Range</td><td><span class="val">0.00</span> &#8211; <span class="val">0.95</span></td></tr>
+                        <tr><td>Default</td><td><span class="val">0.60</span></td></tr>
+                        <tr><td>Use case</td><td>Smooths out position jitter on dolly/crane rigs while keeping rotation responsive</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Presets -->
+        <section class="ref-section" id="presets">
+            <div class="ref-header">
+                <div class="ref-num">7</div>
+                <h2>Presets</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss3.jpg" alt="Preset dropdown showing Handheld, Cinematic, Dolly, Crane, and Raw options" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>One-Click Parameter Sets</h3>
+                    <p>Presets instantly configure all four sliders for common shooting styles. Select a preset and the sliders update automatically.</p>
+                    <table class="preset-table">
+                        <thead>
+                            <tr><th>Preset</th><th>Sens.</th><th>Smooth</th><th>Pos Scale</th><th>Dolly</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Handheld</td><td>1.0</td><td>0.3</td><td>5.0</td><td>0.0</td></tr>
+                            <tr><td>Cinematic</td><td>0.6</td><td>0.7</td><td>3.0</td><td>0.0</td></tr>
+                            <tr><td>Dolly</td><td>0.8</td><td>0.5</td><td>8.0</td><td>0.6</td></tr>
+                            <tr><td>Crane</td><td>0.5</td><td>0.8</td><td>12.0</td><td>0.7</td></tr>
+                            <tr><td>Raw</td><td>1.0</td><td>0.0</td><td>5.0</td><td>0.0</td></tr>
+                        </tbody>
+                    </table>
+                    <p><strong>Handheld</strong> is the default and works well for general-purpose tracking. <strong>Cinematic</strong> adds extra smoothing for polished results. <strong>Dolly</strong> and <strong>Crane</strong> are designed for cameras parented to rigs. <strong>Raw</strong> gives you zero smoothing for direct 1:1 tracking.</p>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Presets are starting points &#8212; after selecting one, you can still adjust any individual slider to taste.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Post FX -->
+        <section class="ref-section" id="postfx">
+            <div class="ref-header">
+                <div class="ref-num">8</div>
+                <h2>Post FX</h2>
+            </div>
+            <div class="ref-card">
+                <div class="ref-screenshot">
+                    <img src="ss2.jpg" alt="Post FX section showing Passes slider, Smooth button, and Bake to World button" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Post-Recording Tools</h3>
+                    <p>Post FX tools work on your recorded keyframes <em>after</em> you stop tracking. They help you polish your camera animation.</p>
+
+                    <p><strong>Smooth</strong> &#8212; Applies a smoothing filter to your recorded keyframes to remove residual hand shake.</p>
+                    <table class="detail-table">
+                        <tr><td>Passes</td><td>Number of smoothing iterations (<span class="val">1</span> &#8211; <span class="val">50</span>, default <span class="val">5</span>). More passes = smoother result. Each pass reduces high-frequency noise while preserving the overall motion path.</td></tr>
+                        <tr><td>Algorithm</td><td>Quaternion-space 1-2-1 kernel &#8212; handles rotation correctly without 180&#176; flips or gimbal artifacts.</td></tr>
+                    </table>
+
+                    <p><strong>Bake to World</strong> &#8212; Converts a parented camera's animation into world-space keyframes.</p>
+                    <table class="detail-table">
+                        <tr><td>When to use</td><td>After you're happy with a parented camera animation and want to remove the parent while keeping the exact same motion.</td></tr>
+                        <tr><td>What it does</td><td>Bakes the final world-space position and rotation on every frame, then clears the parent. The camera follows the exact same path but is now independent.</td></tr>
+                    </table>
+
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Always record first, then apply Smooth. You can undo with <code>Ctrl+Z</code> if you over-smooth. Start with <span class="val">5</span> passes and increase gradually.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. iPhone — Connect Screen -->
+        <section class="ref-section" id="iphone-connect">
+            <div class="ref-header">
+                <div class="ref-num">9</div>
+                <h2>iPhone &#8212; Connect Screen</h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-screenshot ref-screenshot-wide">
+                    <img src="sa1.jpg" alt="BlendMotion iPhone app connect screen showing IP address field, port field, and Connect button" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Connecting to Blender</h3>
+                    <p>This is the first screen you see when you open BlendMotion on your iPhone. Hold your phone in <strong>landscape orientation</strong> before connecting.</p>
+                    <table class="detail-table">
+                        <tr><td>IP Address</td><td>Enter your computer's local IP address here. The easiest way: copy it from the <strong>Preflight Checklist</strong> in Blender (click the &#128203; button) and paste it here.</td></tr>
+                        <tr><td>Port</td><td>The UDP port number. Default is <span class="val">9090</span>. Must match the port set in the Blender addon panel.</td></tr>
+                        <tr><td>Connect</td><td>Tap to start sending motion data to Blender. Make sure the Blender addon is running (<strong>Start</strong> pressed) before you connect.</td></tr>
+                    </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Both devices must be on the <strong>same Wi-Fi network</strong>. If you can't connect, double-check the IP address and make sure your firewall allows UDP on the chosen port.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. iPhone — Tracking Screen -->
+        <section class="ref-section" id="iphone-tracking">
+            <div class="ref-header">
+                <div class="ref-num">10</div>
+                <h2>iPhone &#8212; Tracking Screen</h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-screenshot ref-screenshot-wide">
+                    <img src="sa2.png" alt="BlendMotion iPhone app tracking screen showing horizon indicator, ARKit status, sliders, and action buttons" loading="lazy">
+                </div>
+                <div class="ref-body">
+                    <h3>Live Tracking HUD</h3>
+                    <p>Once connected, the tracking screen shows real-time feedback and gives you control over recording and calibration.</p>
+
+                    <p><strong>Status Bar (top)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>&#128994; Green dot</td><td>Connected and sending data to Blender</td></tr>
+                        <tr><td>60 fps</td><td>ARKit tracking frame rate. Green = good performance.</td></tr>
+                        <tr><td>Tracking: Normal &#10003;</td><td>ARKit tracking quality. "Normal" means stable tracking. "Limited" or "Initializing" means the camera needs better visual features &#8212; add more light or point at textured surfaces.</td></tr>
+                    </table>
+
+                    <p><strong>Horizon Indicator (center)</strong></p>
+                    <p>The crosshair and horizon line show your phone's current orientation. The rotation values below it (<strong>&#8634;</strong> roll and <strong>&#8597;</strong> pitch in degrees) help you monitor your movements in real time.</p>
+
+                    <p><strong>Settings (right panel)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>Sensitivity</td><td>Same as the Blender slider &#8212; controls rotation multiplier. Adjust on-the-fly without going back to Blender.</td></tr>
+                        <tr><td>Position Scale</td><td>Same as the Blender slider &#8212; controls position multiplier. Useful for quick adjustments mid-session.</td></tr>
+                        <tr><td>Record FPS</td><td>Choose the keyframe recording rate: <span class="val">24</span>, <span class="val">25</span>, <span class="val">30</span>, or <span class="val">60</span> fps. Should match your Blender scene FPS for smooth playback.</td></tr>
+                    </table>
+
+                    <p><strong>Action Buttons (bottom)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>Rec</td><td>Start recording keyframes. While recording, every frame is captured to the Blender timeline. Tap again to stop recording.</td></tr>
+                        <tr><td>Recal</td><td>Remote recalibrate &#8212; resets the origin point to your current hand position. Same as clicking Recalibrate in Blender, but you don't need to touch the computer.</td></tr>
+                        <tr><td>End</td><td>Disconnect from Blender and return to the connect screen.</td></tr>
+                    </table>
+
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Use <strong>Recal</strong> whenever the camera drifts or after you reposition yourself. It's instant and doesn't interrupt your workflow.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <hr class="divider">
+    <section class="res-section">
+        <div class="res-label">Resources</div>
+        <h2>Documentation &amp; Support</h2>
+        <div class="res-grid">
+            <a href="index.html" class="res-card">
+                <div class="res-icon">&#127968;</div>
+                <div><div class="res-card-label">Home</div><div class="res-card-desc">Back to main page</div></div>
+            </a>
+            <a href="support.html" class="res-card">
+                <div class="res-icon">&#128640;</div>
+                <div><div class="res-card-label">Support</div><div class="res-card-desc">Quick start &amp; help</div></div>
+            </a>
+            <a href="faq.html" class="res-card">
+                <div class="res-icon">&#10067;</div>
+                <div><div class="res-card-label">FAQ</div><div class="res-card-desc">Common questions answered</div></div>
+            </a>
+            <a href="terms.html" class="res-card">
+                <div class="res-icon">&#128196;</div>
+                <div><div class="res-card-label">Terms of Use</div><div class="res-card-desc">License &amp; usage terms</div></div>
+            </a>
+            <a href="privacy-policy.html" class="res-card">
+                <div class="res-icon">&#128274;</div>
+                <div><div class="res-card-label">Privacy Policy</div><div class="res-card-desc">No data collected, ever</div></div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a> &middot; BlendMotion v1.0.0-Alpha</p>
+    </footer>
+
+</body>
+</html>
