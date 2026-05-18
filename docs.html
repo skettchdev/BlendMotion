@@ -141,6 +141,64 @@
         .preset-table td:first-child { color: #e2e8f0; font-weight: 500; }
         .preset-table tr:last-child td { border-bottom: none; }
 
+
+        /* === v2.5.2 additions === */
+        /* Version badges (inline "since v2.x.x" markers next to section titles) */
+        .v-badge {
+            display: inline-block; padding: 2px 8px; border-radius: 10px;
+            font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            vertical-align: middle; margin-left: 8px;
+        }
+        .v-badge-new {
+            background: rgba(16,185,129,0.14); color: #34d399;
+            border: 1px solid rgba(16,185,129,0.22);
+        }
+        .v-badge-stable {
+            background: rgba(100,116,139,0.12); color: #64748b;
+            border: 1px solid rgba(100,116,139,0.18);
+        }
+        /* Inline "since vX.Y.Z" tag for sub-sections */
+        .since {
+            display: inline-block; margin-left: 10px;
+            font-size: 11px; font-weight: 600; color: #64748b;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            letter-spacing: 0.3px;
+        }
+        /* Mini-tabs (used inside a section to switch between Original / vX content) */
+        .mini-tabs {
+            display: flex; gap: 4px; margin-bottom: 20px;
+            padding: 4px; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px; width: fit-content; max-width: 100%;
+            flex-wrap: wrap;
+        }
+        .mini-tab {
+            background: none; border: none; cursor: pointer;
+            padding: 7px 14px; border-radius: 7px;
+            font-size: 13px; font-weight: 600;
+            color: #64748b; transition: background 0.15s, color 0.15s;
+            font-family: inherit;
+        }
+        .mini-tab:hover { color: #cbd5e1; }
+        .mini-tab.active {
+            background: rgba(59,130,246,0.16); color: #60a5fa;
+        }
+        .mini-tab-badge {
+            display: inline-block; margin-left: 6px;
+            font-size: 9px; padding: 1px 6px; border-radius: 8px;
+            background: rgba(16,185,129,0.18); color: #34d399;
+            font-weight: 700; letter-spacing: 0.5px;
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+        /* Warning tip — amber accent, for documented limitations */
+        .ref-warn {
+            background: rgba(251,146,60,0.07); border: 1px solid rgba(251,146,60,0.16);
+            border-radius: 10px; padding: 12px 16px; margin-top: 14px; font-size: 14px;
+        }
+        .ref-warn strong { color: #fb923c; }
+
         /* Divider, Resources, Footer — matching other pages */
         .divider { border: none; border-top: 1px solid rgba(255,255,255,0.05); max-width: 900px; margin: 0 auto; }
         .res-section { max-width: 680px; margin: 0 auto; padding: 48px 24px 64px; }
@@ -165,33 +223,6 @@
         }
         footer a { color: #475569; text-decoration: none; }
         footer a:hover { color: #64748b; }
-
-        /* Version Selector */
-        .version-bar {
-            max-width: 680px; margin: 0 auto; padding: 28px 24px 0;
-        }
-        .version-bar-label {
-            font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-            color: #475569; margin-bottom: 10px;
-        }
-        .version-tabs { display: flex; gap: 6px; }
-        .version-tab {
-            padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02);
-            color: #64748b; cursor: pointer; transition: all 0.2s;
-        }
-        .version-tab:hover { background: rgba(255,255,255,0.05); color: #94a3b8; }
-        .version-tab.active {
-            background: rgba(59,130,246,0.12); color: #60a5fa;
-            border-color: rgba(59,130,246,0.25);
-        }
-        .version-tab .vtag {
-            display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
-            padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
-        }
-        .vtag-latest { background: rgba(34,197,94,0.15); color: #4ade80; }
-        .version-content { display: none; }
-        .version-content.active { display: block; }
 
         @media (max-width: 780px) {
             .ref-card { grid-template-columns: 1fr; gap: 20px; }
@@ -224,14 +255,6 @@
         <p>A complete guide to every control in the BlendMotion Blender addon panel.</p>
     </div>
 
-    <div class="version-bar">
-        <div class="version-bar-label">Select your version</div>
-        <div class="version-tabs">
-            <button class="version-tab active" onclick="switchVersion('v112')" id="tab-v112">v1.1.2 <span class="vtag vtag-latest">LATEST</span></button>
-            <button class="version-tab" onclick="switchVersion('v100')" id="tab-v100">v1.0.0</button>
-        </div>
-    </div>
-
     <nav class="toc">
         <div class="toc-label">On this page</div>
         <div class="toc-grid">
@@ -239,12 +262,18 @@
             <a href="#preflight" class="toc-item"><span class="toc-num">2</span> Preflight Checklist</a>
             <a href="#port" class="toc-item"><span class="toc-num">3</span> Port</a>
             <a href="#tracking" class="toc-item"><span class="toc-num">4</span> Tracking Mode</a>
-            <a href="#controls" class="toc-item"><span class="toc-num">5</span> Controls</a>
-            <a href="#sliders" class="toc-item"><span class="toc-num">6</span> Sliders</a>
-            <a href="#presets" class="toc-item"><span class="toc-num">7</span> Presets</a>
-            <a href="#postfx" class="toc-item"><span class="toc-num">8</span> Post FX</a>
-            <a href="#iphone-connect" class="toc-item"><span class="toc-num">9</span> iPhone &#8212; Connect</a>
-            <a href="#iphone-tracking" class="toc-item"><span class="toc-num">10</span> iPhone &#8212; Tracking</a>
+            <a href="#predictive" class="toc-item"><span class="toc-num">5</span> Predictive Compensation</a>
+            <a href="#adaptive-smoothing" class="toc-item"><span class="toc-num">6</span> Adaptive Smoothing</a>
+            <a href="#controls" class="toc-item"><span class="toc-num">7</span> Controls</a>
+            <a href="#sliders" class="toc-item"><span class="toc-num">8</span> Sliders</a>
+            <a href="#presets" class="toc-item"><span class="toc-num">9</span> Presets</a>
+            <a href="#live-animation" class="toc-item"><span class="toc-num">10</span> Live Animation</a>
+            <a href="#phone-preview" class="toc-item"><span class="toc-num">11</span> Phone Preview</a>
+            <a href="#postfx" class="toc-item"><span class="toc-num">12</span> Post FX</a>
+            <a href="#phone-notifications" class="toc-item"><span class="toc-num">13</span> Phone Notifications</a>
+            <a href="#experimental" class="toc-item"><span class="toc-num">14</span> Experimental</a>
+            <a href="#iphone-connect" class="toc-item"><span class="toc-num">15</span> iPhone &#8212; Connect</a>
+            <a href="#iphone-tracking" class="toc-item"><span class="toc-num">16</span> iPhone &#8212; Tracking</a>
         </div>
     </nav>
 
@@ -273,15 +302,8 @@
                         <tr><td>Presets</td><td>One-click parameter sets for common use cases</td></tr>
                         <tr><td>Post FX</td><td>Post-recording tools: Smooth and Bake to World</td></tr>
                     </table>
-                    <div class="version-content active" data-version="v112">
-                        <div class="ref-tip">
-                            <strong>&#128161; Tip:</strong> The panel version is shown at the top (<strong>v1.1.2</strong>). If you ever need support, mention this version number.
-                        </div>
-                    </div>
-                    <div class="version-content" data-version="v100">
-                        <div class="ref-tip">
-                            <strong>&#128161; Tip:</strong> The panel version is shown at the top (<strong>v1.0.0</strong>). If you ever need support, mention this version number.
-                        </div>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> The panel version is shown at the top (<strong>v2.5.2</strong>). If you ever need support, mention this version number.
                     </div>
                 </div>
             </div>
@@ -365,10 +387,59 @@
             </div>
         </section>
 
-        <!-- 5. Controls -->
-        <section class="ref-section" id="controls">
+
+        <!-- 5. Predictive Compensation -->
+        <section class="ref-section" id="predictive">
             <div class="ref-header">
                 <div class="ref-num">5</div>
+                <h2>Predictive Compensation <span class="v-badge v-badge-new">since v2.1.0</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Latency Hiding for Fast Camera Moves</h3>
+                    <p>The path from your iPhone's ARKit sensor to a Blender keyframe is short but not free: capture, encode, Wi-Fi, decode, queue, draw. End-to-end it sits around 30&#8201;ms in a healthy setup. On slow, deliberate moves that's invisible. On fast pans it shows up as the camera in Blender lagging slightly behind your hand.</p>
+                    <p>Predictive Compensation hides that gap by extrapolating where the camera <em>will</em> be ~30&#8201;ms from now, using the most recent velocity. When the actual frame arrives, it blends back to the truth.</p>
+                    <table class="detail-table">
+                        <tr><td>Toggle</td><td>Tracking panel &#8212; <strong>Predictive Compensation</strong>. Default <strong>on</strong>.</td></tr>
+                        <tr><td>Latency cap</td><td>80&#8201;ms ceiling. Most Wi-Fi setups land around 20&#8211;40&#8201;ms.</td></tr>
+                        <tr><td>Direction reversals</td><td>Quaternion shortest-path math + identity-near skip. No overshoot on whip pans.</td></tr>
+                        <tr><td>Failure mode</td><td>Defensive fallback to the last good frame. If the prediction would produce nonsense (NaN, huge delta), the raw frame wins.</td></tr>
+                    </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; When to turn it off:</strong> Almost never. If you're testing raw ARKit fidelity or chasing a specific micro-bug, the toggle lets you compare with and without.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Adaptive Smoothing -->
+        <section class="ref-section" id="adaptive-smoothing">
+            <div class="ref-header">
+                <div class="ref-num">6</div>
+                <h2>Adaptive Smoothing <span class="v-badge v-badge-new">since v2.2.0</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Smoothing That Reads the Shot</h3>
+                    <p>A single smoothing value is a compromise: enough to clean up slow handheld shots makes fast pans feel sticky; enough to keep fast pans responsive leaves slow shots jittery.</p>
+                    <p>Adaptive Smoothing measures how fast you're moving and slides between two values you set &#8212; high smoothing for slow, low smoothing for fast.</p>
+                    <table class="detail-table">
+                        <tr><td>Toggle</td><td>Tracking panel &#8212; <strong>Adaptive Smoothing</strong>.</td></tr>
+                        <tr><td>Min Smoothing</td><td>Applied during fast motion (whip pans, snap reframes). Lower = more responsive.</td></tr>
+                        <tr><td>Max Smoothing</td><td>Applied during slow / static motion. Higher = creamier.</td></tr>
+                        <tr><td>Blend</td><td>Continuous, based on measured motion magnitude. No discrete tiers, no audible click between modes.</td></tr>
+                    </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> A good starting pair is <span class="val">0.20</span> min / <span class="val">0.70</span> max. Pairs naturally with Predictive Compensation: fast moves stay snappy, slow moves stay buttery.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Controls -->
+        <section class="ref-section" id="controls">
+            <div class="ref-header">
+                <div class="ref-num">7</div>
                 <h2>Controls</h2>
             </div>
             <div class="ref-card">
@@ -389,10 +460,10 @@
             </div>
         </section>
 
-        <!-- 6. Sliders -->
+        <!-- 8. Sliders -->
         <section class="ref-section" id="sliders">
             <div class="ref-header">
-                <div class="ref-num">6</div>
+                <div class="ref-num">8</div>
                 <h2>Sliders</h2>
             </div>
             <div class="ref-card">
@@ -419,13 +490,16 @@
                         <tr><td>&gt;0.7</td><td>Very smooth, but adds noticeable lag</td></tr>
                     </table>
 
-                    <p><strong>Position Scale</strong> &#8212; Multiplies your physical movement distance in Blender.</p>
+                    <p><strong>Position Scale</strong> &#8212; Multiplies your physical movement distance in Blender. <span class="since">updated v1.4.0</span></p>
                     <table class="detail-table">
-                        <tr><td>Range</td><td><span class="val">0.10</span> &#8211; <span class="val">50.00</span></td></tr>
-                        <tr><td>Default</td><td><span class="val">5.00</span></td></tr>
-                        <tr><td>Low (&lt;3)</td><td>Tabletop / small-scale scenes</td></tr>
-                        <tr><td>High (&gt;10)</td><td>Large architectural / landscape scenes</td></tr>
+                        <tr><td>Range</td><td><span class="val">0.10</span> &#8211; <span class="val">12.00</span></td></tr>
+                        <tr><td>Default</td><td><span class="val">1.00</span> (real scale &#8212; 1&nbsp;m in your room = 1&nbsp;m in Blender)</td></tr>
+                        <tr><td>Low (&lt;1)</td><td>Tabletop / small-scale scenes</td></tr>
+                        <tr><td>High (&gt;3)</td><td>Large architectural / landscape scenes</td></tr>
                     </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; Why 1.0 by default?</strong> Earlier versions defaulted to 5.0, which amplified ARKit's small natural drift 5&times; as well. Real-scale tracking means drift stays at its true size.
+                    </div>
 
                     <p><strong>Dolly Smooth</strong> &#8212; Extra smoothing for position only. Most useful when your camera is <strong>parented to an object</strong>.</p>
                     <table class="detail-table">
@@ -437,10 +511,10 @@
             </div>
         </section>
 
-        <!-- 7. Presets -->
+        <!-- 9. Presets -->
         <section class="ref-section" id="presets">
             <div class="ref-header">
-                <div class="ref-num">7</div>
+                <div class="ref-num">9</div>
                 <h2>Presets</h2>
             </div>
             <div class="ref-card">
@@ -470,11 +544,69 @@
             </div>
         </section>
 
-        <!-- 8. Post FX -->
+
+        <!-- 10. Live Animation -->
+        <section class="ref-section" id="live-animation">
+            <div class="ref-header">
+                <div class="ref-num">10</div>
+                <h2>Live Animation <span class="v-badge v-badge-new">since v2.0.0</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Animated Scenes While You Track</h3>
+                    <p>Two controls let you decide how much of your scene is alive while the camera is being tracked. They share the same depsgraph cost &#8212; that's why they were grouped together in v2.3.1 with a heavy-scene warning.</p>
+                    <p><strong>Live Preview Rate</strong> <span class="since">since v2.0.0</span></p>
+                    <table class="detail-table">
+                        <tr><td>Off</td><td>The scene doesn't advance during tracking. Lowest cost. Good for heavy scenes or when you only care about the camera path.</td></tr>
+                        <tr><td>Slow / Medium / Fast</td><td>The timeline cursor advances during tracking so animated objects move. Higher rates = more depsgraph evaluations per second = heavier load.</td></tr>
+                    </table>
+                    <p><strong>Allow Playback</strong> <span class="since">since v2.0.0</span></p>
+                    <table class="detail-table">
+                        <tr><td>What it does</td><td>Lets Blender's actual playback (Spacebar) run while tracking. Useful when you want to drive the camera through a scrubbing animation.</td></tr>
+                        <tr><td>Default</td><td>Off &#8212; on some setups concurrent depsgraph access can crash Blender. If it crashes on your machine with the toggle on, just leave it off.</td></tr>
+                        <tr><td>Race-condition guard</td><td>Non-parented cameras get an atomic <code>matrix_world</code> write to keep the camera transform consistent during playback.</td></tr>
+                        <tr><td>Override note</td><td>When on, <strong>Live Preview Rate</strong>'s Off setting is overridden &#8212; playback drives the cursor anyway.</td></tr>
+                    </table>
+                    <div class="ref-warn">
+                        <strong>&#9888;&#65039; Heavy scene warning:</strong> Both controls add depsgraph load. In scenes with high-poly meshes, complex modifiers, or many drivers, set <strong>Live Preview Rate = Off</strong> for recording and re-enable for playback afterwards. Recording captures the camera path either way &#8212; this only affects what you <em>see</em> live.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Phone Preview -->
+        <section class="ref-section" id="phone-preview">
+            <div class="ref-header">
+                <div class="ref-num">11</div>
+                <h2>Phone Preview <span class="v-badge v-badge-new">since v1.2.0</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Live Blender Viewport on Your iPhone</h3>
+                    <p>When you start tracking, the Blender viewport streams back to the iPhone over UDP 9091 as a low-bitrate JPEG. You see what the camera sees, framed on your phone, while you operate.</p>
+                    <p><strong>Adaptive Quality</strong> <span class="since">since v1.5.2</span></p>
+                    <table class="detail-table">
+                        <tr><td>AUTO</td><td><strong>Default.</strong> Self-throttles between tiers based on actual encode time. Hysteresis state machine prevents oscillation between modes.</td></tr>
+                        <tr><td>HIGH</td><td>320&times;180 @ q70 &#8212; sharpest preview, highest cost. Best for light scenes.</td></tr>
+                        <tr><td>MEDIUM</td><td>240&times;135 @ q60 &#8212; balanced.</td></tr>
+                        <tr><td>LOW</td><td>144&times;81 @ q50 &#8212; lowest cost. Heavy scenes drop here automatically in AUTO.</td></tr>
+                    </table>
+                    <p><strong>Bidirectional Timeline</strong> <span class="since">since v1.4.4</span></p>
+                    <p>Scrub the Blender timeline from your phone &#8212; the iPhone shows the current frame and lets you tap-seek without leaving the device. Frame info flows back over the same UDP 9091 socket as the preview stream.</p>
+                    <p><strong>Cycles-Friendly Preview</strong> <span class="since">since v2.4.0</span></p>
+                    <p>The preview pipeline now works in Cycles scenes via the SOLID-mode preview path, instead of being hard-blocked as in earlier versions.</p>
+                    <div class="ref-warn">
+                        <strong>&#9888;&#65039; Cycles + Rendered viewport on the phone is not supported.</strong> The framebuffer at draw-handler time does not contain the accumulated Cycles samples. The phone will show "connecting" indefinitely. Use Solid mode for the viewport you're tracking through, or open a second non-Rendered viewport for tracking and keep your Rendered one for previewing the final look.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Post FX -->
         <section class="ref-section" id="postfx">
             <div class="ref-header">
-                <div class="ref-num">8</div>
-                <h2>Post FX</h2>
+                <div class="ref-num">12</div>
+                <h2>Post FX <span class="v-badge v-badge-stable">extended in v1.3.0</span></h2>
             </div>
             <div class="ref-card">
                 <div class="ref-screenshot">
@@ -484,29 +616,98 @@
                     <h3>Post-Recording Tools</h3>
                     <p>Post FX tools work on your recorded keyframes <em>after</em> you stop tracking. They help you polish your camera animation.</p>
 
-                    <p><strong>Smooth</strong> &#8212; Applies a smoothing filter to your recorded keyframes to remove residual hand shake.</p>
-                    <table class="detail-table">
-                        <tr><td>Passes</td><td>Number of smoothing iterations (<span class="val">1</span> &#8211; <span class="val">50</span>, default <span class="val">5</span>). More passes = smoother result. Each pass reduces high-frequency noise while preserving the overall motion path.</td></tr>
-                        <tr><td>Algorithm</td><td>Quaternion-space 1-2-1 kernel &#8212; handles rotation correctly without 180&#176; flips or gimbal artifacts.</td></tr>
-                    </table>
+                    <div class="mini-tabs" role="tablist" aria-label="Post FX tools">
+                        <button class="mini-tab active" data-tab="postfx-smooth" type="button">Smooth</button>
+                        <button class="mini-tab" data-tab="postfx-zdrift" type="button">Z-Drift Removal<span class="mini-tab-badge">v1.3</span></button>
+                        <button class="mini-tab" data-tab="postfx-bake" type="button">Bake to World</button>
+                    </div>
 
-                    <p><strong>Bake to World</strong> &#8212; Converts a parented camera's animation into world-space keyframes.</p>
-                    <table class="detail-table">
-                        <tr><td>When to use</td><td>After you're happy with a parented camera animation and want to remove the parent while keeping the exact same motion.</td></tr>
-                        <tr><td>What it does</td><td>Bakes the final world-space position and rotation on every frame, then clears the parent. The camera follows the exact same path but is now independent.</td></tr>
-                    </table>
+                    <div class="tab-panel active" id="postfx-smooth">
+                        <p><strong>Smooth</strong> &#8212; Applies a smoothing filter to your recorded keyframes to remove residual hand shake.</p>
+                        <table class="detail-table">
+                            <tr><td>Passes</td><td>Number of smoothing iterations (<span class="val">1</span> &#8211; <span class="val">50</span>, default <span class="val">5</span>). More passes = smoother result. Each pass reduces high-frequency noise while preserving the overall motion path.</td></tr>
+                            <tr><td>Algorithm</td><td>Quaternion-space 1-2-1 kernel &#8212; handles rotation correctly without 180&#176; flips or gimbal artifacts.</td></tr>
+                        </table>
+                        <div class="ref-tip">
+                            <strong>&#128161; Tip:</strong> Always record first, then apply Smooth. You can undo with <code>Ctrl+Z</code> if you over-smooth. Start with <span class="val">5</span> passes and increase gradually.
+                        </div>
+                    </div>
 
-                    <div class="ref-tip">
-                        <strong>&#128161; Tip:</strong> Always record first, then apply Smooth. You can undo with <code>Ctrl+Z</code> if you over-smooth. Start with <span class="val">5</span> passes and increase gradually.
+                    <div class="tab-panel" id="postfx-zdrift">
+                        <p><strong>Z-Drift Removal</strong> &#8212; Non-destructive compensation for ARKit's natural vertical drift on long takes. <span class="since">since v1.3.0</span></p>
+                        <table class="detail-table">
+                            <tr><td>Method</td><td><strong>Linear</strong> &#8212; subtracts a straight drift line from first to last Z keyframe. Best for level-ground walk-throughs where you didn't intentionally change height.<br><br><strong>High-pass</strong> &#8212; zero-phase double-pass IIR filter that removes only the slow trend. Preserves intentional motion like walk bounce or head tilt. Requires &#8805;5 keyframes.</td></tr>
+                            <tr><td>Strength</td><td><span class="val">0.0</span> &#8211; <span class="val">1.0</span>. How aggressively the drift is removed.</td></tr>
+                            <tr><td>Apply</td><td>First Apply captures a snapshot of your original Z values. Changing Strength and re-applying recomputes from the snapshot &#8212; effects don't stack.</td></tr>
+                            <tr><td>Reset</td><td>Restores the snapshot and clears it. Greyed out when no valid snapshot exists.</td></tr>
+                        </table>
+                        <div class="ref-tip">
+                            <strong>&#128161; Tip:</strong> Before a long take, slowly pan the iPhone around the shooting area for 10&#8211;15 seconds so ARKit builds a stronger feature map. Less drift to remove afterwards. Avoid blank walls and polished floors when possible.
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="postfx-bake">
+                        <p><strong>Bake to World</strong> &#8212; Converts a parented camera's animation into world-space keyframes.</p>
+                        <table class="detail-table">
+                            <tr><td>When to use</td><td>After you're happy with a parented camera animation and want to remove the parent while keeping the exact same motion.</td></tr>
+                            <tr><td>What it does</td><td>Bakes the final world-space position and rotation on every frame, then clears the parent. The camera follows the exact same path but is now independent.</td></tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 9. iPhone — Connect Screen -->
+
+        <!-- 13. Phone Notifications -->
+        <section class="ref-section" id="phone-notifications">
+            <div class="ref-header">
+                <div class="ref-num">13</div>
+                <h2>Phone Notifications <span class="v-badge v-badge-new">since v2.2.0</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Blender Talking Back to the iPhone</h3>
+                    <p>Sometimes Blender needs to tell the operator something while they're holding the phone &#8212; a tracking warning, an unsupported configuration, an end-of-take confirmation. BMBanner is the channel for that.</p>
+                    <table class="detail-table">
+                        <tr><td>Transport</td><td><code>BM:NOTIFY:type:msg</code> text command on UDP port 9091 (same socket as preview).</td></tr>
+                        <tr><td>Types</td><td><strong>info</strong> &#8212; neutral. <strong>warn</strong> &#8212; amber. <strong>error</strong> &#8212; red.</td></tr>
+                        <tr><td>Examples</td><td>"Preview not supported with Cycles + Rendered viewport.", "Tracking paused &#8212; phone disconnected.", "Recording flushed.".</td></tr>
+                        <tr><td>On the phone</td><td>Banner appears at the top with the message, auto-dismisses after a few seconds, can be tapped away.</td></tr>
+                    </table>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Notifications are one-way (Blender &#8594; phone). If the phone needs to send commands back, that uses port 9090 (BM:RESET / BM:RETAKE / etc.) as before.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. Experimental -->
+        <section class="ref-section" id="experimental">
+            <div class="ref-header">
+                <div class="ref-num">14</div>
+                <h2>Experimental <span class="v-badge v-badge-new">since v2.5.1</span></h2>
+            </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-body">
+                    <h3>Opt-In Candidate Fixes</h3>
+                    <p>Two opt-in toggles live under <strong>Tracking &#8594; Experimental</strong>. Both default <strong>off</strong>. Enable them only if you've seen periodic micro-bumps in recorded camera motion that aren't present during live tracking. They operate at different points in the recording pipeline and can be on simultaneously.</p>
+                    <p><strong>Time-Synced Recording</strong> <span class="since">since v2.5.1</span></p>
+                    <p>At 24&#8201;fps recording on a 60&#8201;Hz timer, keyframes naturally land at alternating 2-tick / 3-tick gaps (50&#8201;ms / 33&#8201;ms), producing an 8&#8201;ms drift that alternates per frame. That drift can alias with OS scheduler or Wi-Fi patterns into visible micro-bumps.</p>
+                    <p>When the toggle is on, each keyframe's pose is interpolated from a rolling buffer to land at the frame's exact intended time slot &#8212; jitter from the timer tick stops showing up in the recording.</p>
+                    <p><strong>Smooth Wi-Fi Stalls</strong> <span class="since">since v2.5.2</span></p>
+                    <p>During the iPhone's DTIM beacon cycle (~666&#8201;ms), the Wi-Fi radio briefly suspends; UDP pose updates don't reach the addon; the smoothing pipeline settles to a fixed point; the recording captures runs of duplicate poses.</p>
+                    <p>This toggle scans the recording buffer at flush-time for runs of duplicate poses and replaces them with linear interpolation between the surrounding real-motion poses. A pattern-detection guard prevents false-positive smoothing of intentional pauses (a deliberate hold gets a different signature than a Wi-Fi stall).</p>
+                    <div class="ref-tip">
+                        <strong>&#128269; How to test:</strong> Record the same take twice &#8212; once with the toggle off, once on. Compare the recorded fcurves. If the bumps go away with it on, the toggle is doing its job. Feedback shapes whether these become default-on in a future release.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 15. iPhone — Connect Screen -->
         <section class="ref-section" id="iphone-connect">
             <div class="ref-header">
-                <div class="ref-num">9</div>
+                <div class="ref-num">15</div>
                 <h2>iPhone &#8212; Connect Screen</h2>
             </div>
             <div class="ref-card ref-card-wide">
@@ -528,95 +729,49 @@
             </div>
         </section>
 
-        <!-- 10. iPhone — Tracking Screen -->
+        <!-- 16. iPhone — Tracking Screen -->
         <section class="ref-section" id="iphone-tracking">
             <div class="ref-header">
-                <div class="ref-num">10</div>
-                <h2>iPhone &#8212; Tracking Screen</h2>
+                <div class="ref-num">16</div>
+                <h2>iPhone &#8212; Tracking Screen <span class="v-badge v-badge-stable">redesigned in v2.3.0</span></h2>
             </div>
-
-            <!-- v1.1.2 -->
-            <div class="version-content active" data-version="v112">
-                <div class="ref-card ref-card-wide">
-                    <div class="ref-screenshot ref-screenshot-wide">
-                        <img src="sa3.jpg" alt="BlendMotion v1.1 iPhone tracking screen showing viewport preview, settings panel, and action buttons" loading="lazy">
-                    </div>
-                    <div class="ref-body">
-                        <h3>Live Tracking HUD</h3>
-                        <p>Once connected, the tracking screen shows a real-time viewport preview from Blender and gives you full control over recording, calibration, and playback.</p>
-
-                        <p><strong>Status Bar (top)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>&#128994; Green dot</td><td>Connected and sending data to Blender</td></tr>
-                            <tr><td>Tracking: Normal &#10003;</td><td>ARKit tracking quality. "Normal" means stable tracking. "Limited" or "Initializing" means the camera needs better visual features &#8212; add more light or point at textured surfaces.</td></tr>
-                            <tr><td>60 fps</td><td>ARKit tracking frame rate. Green = good performance.</td></tr>
-                            <tr><td>&#9679; LIVE</td><td>Indicates live tracking data is being sent to Blender.</td></tr>
-                        </table>
-
-                        <p><strong>Viewport Preview (center)</strong></p>
-                        <p>Shows a live preview of the Blender viewport streamed at 24 FPS. This lets you see what the camera sees in Blender without looking at your computer screen. Tap the <strong>Preview</strong> button to toggle it on or off.</p>
-
-                        <p><strong>Settings (right panel)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>Sensitivity</td><td>Controls the rotation multiplier. Same as the Blender slider &#8212; adjust on-the-fly without going back to Blender.</td></tr>
-                            <tr><td>Pos Scale</td><td>Controls the position multiplier. Useful for quick adjustments mid-session.</td></tr>
-                            <tr><td>Record FPS</td><td>Choose the keyframe recording rate: <span class="val">24</span>, <span class="val">25</span>, <span class="val">30</span>, or <span class="val">60</span> fps. Should match your Blender scene FPS for smooth playback.</td></tr>
-                        </table>
-
-                        <p><strong>Action Buttons (bottom)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>Rec</td><td>Start recording keyframes. While recording, every frame is captured to the Blender timeline. Tap again to stop recording.</td></tr>
-                            <tr><td>Retake</td><td>Deletes all recorded keyframes and rewinds the timeline to the start. Use this when you want a fresh take without manually clearing keyframes in Blender.</td></tr>
-                            <tr><td>Pause</td><td>Freezes the camera in place while keeping the connection alive. Useful when you need to reposition yourself.</td></tr>
-                            <tr><td>Reset</td><td>Restores the camera to its original position (captured when you clicked Start in Blender) and recalibrates the tracking origin.</td></tr>
-                            <tr><td>Preview</td><td>Toggles the live viewport preview on or off. The preview streams from Blender at 24 FPS over a separate UDP channel.</td></tr>
-                            <tr><td>End</td><td>Disconnect from Blender and return to the connect screen.</td></tr>
-                        </table>
-
-                        <div class="ref-tip">
-                            <strong>&#128161; Tip:</strong> Use <strong>Pause</strong> when you need to reposition yourself, then the tracking resumes with automatic recalibration. <strong>Retake</strong> is your best friend for quick iteration &#8212; no need to touch Blender between takes.
-                        </div>
-                    </div>
+            <div class="ref-card ref-card-wide">
+                <div class="ref-screenshot ref-screenshot-wide">
+                    <img src="sa2.jpg" alt="BlendMotion iPhone app tracking screen showing horizon indicator, ARKit status, sliders, and action buttons" loading="lazy">
                 </div>
-            </div>
-
-            <!-- v1.0.0 -->
-            <div class="version-content" data-version="v100">
-                <div class="ref-card ref-card-wide">
-                    <div class="ref-screenshot ref-screenshot-wide">
-                        <img src="sa2.jpg" alt="BlendMotion v1.0 iPhone tracking screen showing horizon indicator, ARKit status, and action buttons" loading="lazy">
+                <div class="ref-body">
+                    <h3>Live Tracking HUD</h3>
+                    <div class="ref-warn" style="background:rgba(59,130,246,0.07);border-color:rgba(59,130,246,0.16);">
+                        <strong style="color:#60a5fa;">&#128241; Redesigned in v2.3.0.</strong> The HUD now supports both landscape and portrait orientation, adds iPhone-Camera-style lens preset pills (0.5&times; / 1&times; / 2&times; / 5&times;), shows tracking status banners when ARKit needs better lighting or has lost tracking, and can display notifications pushed from Blender (see <a href="#phone-notifications">Phone Notifications</a>).
                     </div>
-                    <div class="ref-body">
-                        <h3>Live Tracking HUD</h3>
-                        <p>Once connected, the tracking screen shows real-time feedback and gives you control over recording and calibration.</p>
+                    <p>Once connected, the tracking screen shows real-time feedback and gives you control over recording and calibration.</p>
 
-                        <p><strong>Status Bar (top)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>&#128994; Green dot</td><td>Connected and sending data to Blender</td></tr>
-                            <tr><td>60 fps</td><td>ARKit tracking frame rate. Green = good performance.</td></tr>
-                            <tr><td>Tracking: Normal &#10003;</td><td>ARKit tracking quality. "Normal" means stable tracking. "Limited" or "Initializing" means the camera needs better visual features &#8212; add more light or point at textured surfaces.</td></tr>
-                        </table>
+                    <p><strong>Status Bar (top)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>&#128994; Green dot</td><td>Connected and sending data to Blender</td></tr>
+                        <tr><td>60 fps</td><td>ARKit tracking frame rate. Green = good performance.</td></tr>
+                        <tr><td>Tracking: Normal &#10003;</td><td>ARKit tracking quality. "Normal" means stable tracking. "Limited" or "Initializing" means the camera needs better visual features &#8212; add more light or point at textured surfaces.</td></tr>
+                    </table>
 
-                        <p><strong>Horizon Indicator (center)</strong></p>
-                        <p>The crosshair and horizon line show your phone's current orientation. The rotation values below it (<strong>&#8634;</strong> roll and <strong>&#8597;</strong> pitch in degrees) help you monitor your movements in real time.</p>
+                    <p><strong>Horizon Indicator (center)</strong></p>
+                    <p>The crosshair and horizon line show your phone's current orientation. The rotation values below it (<strong>&#8634;</strong> roll and <strong>&#8597;</strong> pitch in degrees) help you monitor your movements in real time.</p>
 
-                        <p><strong>Settings (right panel)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>Sensitivity</td><td>Same as the Blender slider &#8212; controls rotation multiplier. Adjust on-the-fly without going back to Blender.</td></tr>
-                            <tr><td>Position Scale</td><td>Same as the Blender slider &#8212; controls position multiplier. Useful for quick adjustments mid-session.</td></tr>
-                            <tr><td>Record FPS</td><td>Choose the keyframe recording rate: <span class="val">24</span>, <span class="val">25</span>, <span class="val">30</span>, or <span class="val">60</span> fps. Should match your Blender scene FPS for smooth playback.</td></tr>
-                        </table>
+                    <p><strong>Settings (right panel)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>Sensitivity</td><td>Same as the Blender slider &#8212; controls rotation multiplier. Adjust on-the-fly without going back to Blender.</td></tr>
+                        <tr><td>Position Scale</td><td>Same as the Blender slider &#8212; controls position multiplier. Useful for quick adjustments mid-session.</td></tr>
+                        <tr><td>Record FPS</td><td>Choose the keyframe recording rate: <span class="val">24</span>, <span class="val">25</span>, <span class="val">30</span>, or <span class="val">60</span> fps. Should match your Blender scene FPS for smooth playback.</td></tr>
+                    </table>
 
-                        <p><strong>Action Buttons (bottom)</strong></p>
-                        <table class="detail-table">
-                            <tr><td>Rec</td><td>Start recording keyframes. While recording, every frame is captured to the Blender timeline. Tap again to stop recording.</td></tr>
-                            <tr><td>Recal</td><td>Remote recalibrate &#8212; resets the origin point to your current hand position. Same as clicking Recalibrate in Blender, but you don't need to touch the computer.</td></tr>
-                            <tr><td>End</td><td>Disconnect from Blender and return to the connect screen.</td></tr>
-                        </table>
+                    <p><strong>Action Buttons (bottom)</strong></p>
+                    <table class="detail-table">
+                        <tr><td>Rec</td><td>Start recording keyframes. While recording, every frame is captured to the Blender timeline. Tap again to stop recording.</td></tr>
+                        <tr><td>Recal</td><td>Remote recalibrate &#8212; resets the origin point to your current hand position. Same as clicking Recalibrate in Blender, but you don't need to touch the computer.</td></tr>
+                        <tr><td>End</td><td>Disconnect from Blender and return to the connect screen.</td></tr>
+                    </table>
 
-                        <div class="ref-tip">
-                            <strong>&#128161; Tip:</strong> Use <strong>Recal</strong> whenever the camera drifts or after you reposition yourself. It's instant and doesn't interrupt your workflow.
-                        </div>
+                    <div class="ref-tip">
+                        <strong>&#128161; Tip:</strong> Use <strong>Recal</strong> whenever the camera drifts or after you reposition yourself. It's instant and doesn't interrupt your workflow.
                     </div>
                 </div>
             </div>
@@ -653,27 +808,27 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a> &middot; BlendMotion v1.1.2</p>
+        <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a> &middot; BlendMotion v2.5.2</p>
     </footer>
 
-    <script>
-        function switchVersion(version) {
-            // Update tabs
-            document.querySelectorAll('.version-tab').forEach(function(tab) {
-                tab.classList.remove('active');
-            });
-            document.getElementById('tab-' + version).classList.add('active');
 
-            // Update content blocks
-            document.querySelectorAll('.version-content').forEach(function(el) {
-                if (el.getAttribute('data-version') === version) {
-                    el.classList.add('active');
-                } else {
-                    el.classList.remove('active');
-                }
-            });
-        }
-    </script>
+<script>
+// Mini-tabs: clicking a .mini-tab activates the .tab-panel with matching id.
+// Scoped per .ref-card so multiple sections don't interfere.
+document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.mini-tab');
+    if (!btn) return;
+    var card = btn.closest('.ref-card');
+    if (!card) return;
+    var targetId = btn.getAttribute('data-tab');
+    if (!targetId) return;
+    card.querySelectorAll('.mini-tab').forEach(function(b) { b.classList.remove('active'); });
+    card.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    var panel = card.querySelector('#' + CSS.escape(targetId));
+    if (panel) panel.classList.add('active');
+});
+</script>
 
 </body>
 </html>
