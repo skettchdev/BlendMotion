@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlendMotion — iPhone Camera Tracking for Blender</title>
+<meta name="description" content="Turn your iPhone into a real-time virtual camera for Blender. 6DoF ARKit tracking over local Wi-Fi — no cables, no rigs, no cloud.">
+<meta name="keywords" content="Blender, iPhone, camera tracking, ARKit, virtual camera, 3D animation, Blender addon">
+<meta name="author" content="Skettch">
+
+<!-- Open Graph -->
+<meta property="og:title" content="BlendMotion — iPhone Camera Tracking for Blender">
+<meta property="og:description" content="Turn your iPhone into a real-time virtual camera for Blender. 6DoF tracking over local Wi-Fi.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BlendMotion — iPhone Camera Tracking for Blender">
+<meta name="twitter:description" content="Turn your iPhone into a real-time virtual camera for Blender. 6DoF tracking over local Wi-Fi.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ════════════════════════════════════════════
+   BlendMotion — design tokens
+   Story: orange = Blender side, blue = iPhone side.
+   The product is the bridge between them.
+   ════════════════════════════════════════════ */
+:root {
+    --bg: #141416;            /* Blender viewport dark */
+    --bg-raise: #1b1c1f;
+    --panel: #232427;         /* N-panel gray */
+    --panel-edge: #2f3034;
+    --grid-line: #26272b;
+    --orange: #f5792a;        /* Blender selection orange */
+    --orange-dim: rgba(245,121,42,0.14);
+    --blue: #4aa3ff;          /* iOS / slider blue */
+    --blue-dim: rgba(74,163,255,0.14);
+    --text: #ececea;
+    --text-2: #a9a9a5;
+    --text-3: #6d6d6a;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --disp: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'Inter', -apple-system, system-ui, sans-serif;
+    --r: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--text-2);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* faint viewport grid across the whole page */
+    background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: 50% 0;
+}
+
+::selection { background: var(--orange); color: #141416; }
+
+a { color: inherit; }
+
+.mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+}
+
+/* ── Top nav ─────────────────────────────── */
+.topnav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(20,20,22,0.82);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--panel-edge);
+    position: sticky; top: 0; z-index: 100;
+}
+.topnav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.topnav-logo { width: 30px; height: 30px; border-radius: 7px; }
+.topnav-name {
+    font-family: var(--disp); font-size: 16px; font-weight: 700;
+    color: var(--text); letter-spacing: -0.2px;
+}
+.topnav-links { display: flex; align-items: center; gap: 4px; }
+.topnav-link {
+    font-size: 13px; font-weight: 500; color: var(--text-3);
+    text-decoration: none; padding: 6px 12px; border-radius: 7px;
+    transition: color .2s, background .2s;
+}
+.topnav-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.topnav-link.store { color: var(--blue); }
+@media (max-width: 640px) { .topnav-links .hide-sm { display: none; } }
+
+/* ── Hero ────────────────────────────────── */
+.hero {
+    max-width: 1160px; margin: 0 auto;
+    padding: 72px 28px 56px;
+    display: grid;
+    grid-template-columns: minmax(320px, 460px) 1fr;
+    gap: 48px;
+    align-items: center;
+}
+.hero-eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 2px; color: var(--orange); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow .flow { color: var(--text-3); }
+.hero-eyebrow .ios { color: var(--blue); }
+.hero h1 {
+    font-family: var(--disp);
+    font-size: clamp(38px, 5vw, 56px);
+    font-weight: 700; line-height: 1.05;
+    color: var(--text); letter-spacing: -1.5px;
+    margin-bottom: 20px;
+}
+.hero h1 em {
+    font-style: normal; color: var(--orange);
+}
+.hero-sub {
+    font-size: 17px; color: var(--text-2);
+    max-width: 420px; margin-bottom: 32px;
+}
+.cta-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 13px 24px; border-radius: var(--r);
+    font-size: 15px; font-weight: 600; text-decoration: none;
+    transition: transform .15s, box-shadow .2s, background .2s, border-color .2s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-store {
+    background: var(--blue); color: #0d1117;
+    box-shadow: 0 4px 20px rgba(74,163,255,0.25);
+}
+.btn-store:hover { box-shadow: 0 6px 26px rgba(74,163,255,0.4); transform: translateY(-1px); }
+.btn-addon {
+    color: var(--orange);
+    border: 1px solid rgba(245,121,42,0.45);
+    background: var(--orange-dim);
+}
+.btn-addon:hover { background: rgba(245,121,42,0.22); border-color: var(--orange); transform: translateY(-1px); }
+.hero-meta {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 1.4px;
+    color: var(--text-3); text-transform: uppercase;
+}
+.hero-meta b { color: var(--text-2); font-weight: 500; }
+
+/* ── Live viewport (signature element) ────── */
+.viewport {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    position: relative;
+    min-width: 0;
+}
+.vp-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 14px;
+    background: var(--bg-raise);
+    border-bottom: 1px solid var(--panel-edge);
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-3);
+}
+.vp-header .dot { color: var(--orange); }
+.vp-body { position: relative; }
+#vp-canvas { display: block; width: 100%; height: 380px; touch-action: none; cursor: crosshair; }
+.vp-hud {
+    position: absolute; left: 12px; bottom: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    pointer-events: none;
+}
+.hud-chip {
+    background: rgba(20,20,22,0.78);
+    border: 1px solid var(--panel-edge);
+    border-radius: 8px;
+    padding: 7px 11px;
+    font-family: var(--mono); font-size: 11.5px;
+    color: var(--text-2);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    white-space: nowrap;
+}
+.hud-chip .ax { color: var(--text-3); }
+.hud-chip .val { color: var(--text); display: inline-block; min-width: 52px; }
+.vp-controls {
+    position: absolute; right: 12px; bottom: 12px;
+    display: flex; align-items: center; gap: 10px;
+}
+.rec-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(20,20,22,0.82);
+    border: 1px solid var(--panel-edge);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 1.4px;
+    color: var(--text-2); cursor: pointer;
+    transition: border-color .2s, color .2s;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.rec-btn:hover { border-color: var(--orange); color: var(--text); }
+.rec-btn .rec-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--text-3); transition: background .2s;
+}
+.rec-btn.recording { border-color: #ef4444; color: #fca5a5; }
+.rec-btn.recording .rec-dot { background: #ef4444; animation: blink 1s steps(2) infinite; }
+.rec-btn.replaying { border-color: var(--blue); color: var(--blue); }
+.rec-btn.replaying .rec-dot { background: var(--blue); }
+@keyframes blink { 50% { opacity: 0.25; } }
+.vp-hint {
+    position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 1.4px;
+    text-transform: uppercase; color: var(--text-3);
+    background: rgba(20,20,22,0.7);
+    border: 1px solid var(--panel-edge); border-radius: 6px;
+    padding: 5px 12px; pointer-events: none;
+    transition: opacity .6s;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.vp-hint.gone { opacity: 0; }
+
+/* ── Sections ────────────────────────────── */
+.section { max-width: 1160px; margin: 0 auto; padding: 72px 28px; }
+.section-label {
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 2.2px; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 12px;
+}
+.section h2 {
+    font-family: var(--disp); font-size: clamp(26px, 3.2vw, 34px);
+    font-weight: 700; color: var(--text);
+    letter-spacing: -0.8px; margin-bottom: 14px;
+}
+.section-sub { max-width: 560px; margin-bottom: 44px; font-size: 16px; }
+.divider {
+    max-width: 1160px; margin: 0 auto; border: none;
+    border-top: 1px solid var(--panel-edge);
+}
+
+/* ── Preflight checklist (how it works) ──── */
+.checklist {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 760px;
+}
+.checklist-head {
+    padding: 12px 20px;
+    background: var(--bg-raise);
+    border-bottom: 1px solid var(--panel-edge);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 1.6px;
+    text-transform: uppercase; color: var(--text-3);
+    display: flex; justify-content: space-between;
+}
+.checklist-head .ok { color: #4ade80; }
+.check-row {
+    display: flex; align-items: flex-start; gap: 18px;
+    padding: 22px 20px;
+    border-bottom: 1px solid var(--panel-edge);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity .5s ease, transform .5s ease;
+}
+.check-row:last-child { border-bottom: none; }
+.check-row.seen { opacity: 1; transform: none; }
+.check-mark {
+    flex-shrink: 0;
+    width: 26px; height: 26px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--orange-dim);
+    color: var(--orange);
+    font-size: 14px; font-weight: 700;
+    border: 1px solid rgba(245,121,42,0.3);
+    margin-top: 2px;
+}
+.check-row h3 {
+    font-family: var(--disp); font-size: 17px; font-weight: 600;
+    color: var(--text); margin-bottom: 4px; letter-spacing: -0.2px;
+}
+.check-row p { font-size: 14.5px; color: var(--text-2); max-width: 560px; }
+.check-row code {
+    font-family: var(--mono); font-size: 12.5px;
+    background: var(--bg); border: 1px solid var(--panel-edge);
+    border-radius: 5px; padding: 1px 6px; color: var(--blue);
+}
+
+/* ── Features ────────────────────────────── */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 14px;
+}
+.feature {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--r);
+    padding: 24px 22px;
+    transition: border-color .2s, transform .15s;
+}
+.feature:hover { border-color: rgba(245,121,42,0.4); transform: translateY(-2px); }
+.feature-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.8px;
+    text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+}
+.feature-tag.ios { color: var(--blue); }
+.feature h3 {
+    font-family: var(--disp); font-size: 17px; font-weight: 600;
+    color: var(--text); margin-bottom: 8px; letter-spacing: -0.2px;
+}
+.feature p { font-size: 14px; color: var(--text-2); }
+
+/* ── Requirements ────────────────────────── */
+.req-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+}
+.req-card {
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--r);
+    padding: 20px;
+}
+.req-card .mono { color: var(--text-3); display: block; margin-bottom: 8px; }
+.req-card b {
+    font-family: var(--disp); font-size: 16px; font-weight: 600;
+    color: var(--text); letter-spacing: -0.2px;
+}
+
+/* ── Resources ───────────────────────────── */
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+.link-card {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--panel);
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--r);
+    padding: 18px 20px;
+    text-decoration: none;
+    transition: border-color .2s, transform .15s;
+}
+.link-card:hover { border-color: rgba(74,163,255,0.4); transform: translateY(-2px); }
+.link-label {
+    font-family: var(--disp); font-size: 15px; font-weight: 600; color: var(--text);
+}
+.link-desc { font-size: 13px; color: var(--text-3); margin-top: 2px; }
+.link-arrow { color: var(--text-3); font-size: 15px; flex-shrink: 0; }
+.link-card:hover .link-arrow { color: var(--blue); }
+
+/* ── Footer ──────────────────────────────── */
+footer {
+    border-top: 1px solid var(--panel-edge);
+    text-align: center;
+    padding: 36px 24px;
+    font-size: 13px; color: var(--text-3);
+}
+footer a { color: var(--text-2); text-decoration: none; }
+footer a:hover { color: var(--text); }
+.footer-proto {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 1.6px;
+    text-transform: uppercase; margin-top: 8px; color: #4a4a48;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 36px; padding-top: 52px; }
+    #vp-canvas { height: 320px; }
+}
+@media (max-width: 600px) {
+    .section { padding: 52px 20px; }
+    .cta-group { flex-direction: column; }
+    .btn { justify-content: center; }
+    #vp-canvas { height: 280px; }
+    .vp-hud { flex-direction: row; }
+    .hud-chip.smoothing { display: none; }
+}
+
+/* focus visibility */
+a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--blue); outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .check-row { transition: none; opacity: 1; transform: none; }
+    .rec-btn.recording .rec-dot { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+    <a href="index.html" class="topnav-brand">
+        <img src="logo.png" alt="" class="topnav-logo" onerror="this.style.display='none'">
+        <span class="topnav-name">BlendMotion</span>
+    </a>
+    <div class="topnav-links">
+        <a href="docs.html" class="topnav-link">Docs</a>
+        <a href="support.html" class="topnav-link hide-sm">Support</a>
+        <a href="faq.html" class="topnav-link hide-sm">FAQ</a>
+        <a href="https://github.com/skettchdev/BlendMotion/releases" class="topnav-link hide-sm">GitHub&nbsp;↗</a>
+        <a href="https://apps.apple.com/app/id6760141471" class="topnav-link store">App&nbsp;Store&nbsp;↗</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-copy">
+        <div class="hero-eyebrow">
+            <span class="ios">iPhone</span><span class="flow">──── Wi-Fi ────▶</span><span>Blender</span>
+        </div>
+        <h1>Your iPhone is the <em>camera rig</em>.</h1>
+        <p class="hero-sub">
+            BlendMotion streams real 6DoF ARKit tracking from your phone straight
+            into Blender's camera — live, over local Wi-Fi. Walk, pan, breathe:
+            every move lands on the timeline as keyframes.
+        </p>
+        <nav class="cta-group" aria-label="Download links">
+            <a href="https://apps.apple.com/app/id6760141471" class="btn btn-store">
+                 Download on the App&nbsp;Store
+            </a>
+            <a href="https://github.com/skettchdev/BlendMotion/releases" class="btn btn-addon">
+                Get the free Blender addon
+            </a>
+        </nav>
+        <div class="hero-meta">
+            v2.5.2 &nbsp;·&nbsp; <b>local UDP</b> &nbsp;·&nbsp; port 9090 &nbsp;·&nbsp; up to <b>60 fps</b> &nbsp;·&nbsp; no cloud
+        </div>
+    </div>
+
+    <!-- Signature: live tracked-camera demo -->
+    <div class="viewport" aria-label="Interactive demo: move your pointer to drive a virtual camera across a 3D grid, like BlendMotion drives Blender's camera from your phone">
+        <div class="vp-header">
+            <span><span class="dot">●</span>&nbsp; camera.001 — perspective</span>
+            <span id="vp-status">live</span>
+        </div>
+        <div class="vp-body">
+            <canvas id="vp-canvas" aria-hidden="true"></canvas>
+            <div class="vp-hint" id="vp-hint">move your pointer — the camera follows</div>
+            <div class="vp-hud" aria-hidden="true">
+                <div class="hud-chip">
+                    <span class="ax">X</span> <span class="val" id="hud-x">0.00</span>
+                    <span class="ax">Y</span> <span class="val" id="hud-y">1.20</span>
+                    <span class="ax">Z</span> <span class="val" id="hud-z">8.00</span>
+                </div>
+                <div class="hud-chip smoothing">
+                    <span class="ax">SMOOTHING</span>
+                    <input type="range" id="hud-smooth" min="0" max="0.9" step="0.05" value="0.30"
+                        style="width:90px;vertical-align:middle;accent-color:var(--blue);pointer-events:auto;">
+                    <span class="val" id="hud-smooth-val" style="min-width:38px;">0.30</span>
+                </div>
+            </div>
+            <div class="vp-controls">
+                <button class="rec-btn" id="rec-btn" type="button" aria-label="Record your camera path and replay it">
+                    <span class="rec-dot"></span><span id="rec-label">REC</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <hr class="divider">
+
+    <!-- How it works — styled after the addon's real Preflight Checklist -->
+    <section class="section">
+        <div class="section-label">How it works</div>
+        <h2>Four checks. Then you're filming.</h2>
+        <p class="section-sub">The addon ships with a Preflight Checklist that verifies everything for you — IP, camera, port, frame rate. Setup mirrors it exactly:</p>
+
+        <div class="checklist">
+            <div class="checklist-head">
+                <span>Preflight Checklist</span>
+                <span class="ok">4 / 4 ready</span>
+            </div>
+            <div class="check-row">
+                <div class="check-mark" aria-hidden="true">✓</div>
+                <div>
+                    <h3>Install the addon</h3>
+                    <p>Grab the free addon from GitHub Releases and install the zip in Blender. It auto-detects your IP, active camera, and confirms port <code>9090</code> is free.</p>
+                </div>
+            </div>
+            <div class="check-row">
+                <div class="check-mark" aria-hidden="true">✓</div>
+                <div>
+                    <h3>Connect your iPhone</h3>
+                    <p>Open BlendMotion on the same Wi-Fi network, enter the IP shown in the checklist, and tap Connect. Tracking starts streaming instantly.</p>
+                </div>
+            </div>
+            <div class="check-row">
+                <div class="check-mark" aria-hidden="true">✓</div>
+                <div>
+                    <h3>Move &amp; record</h3>
+                    <p>Hold the phone like a camera — landscape or portrait — and move. Blender's camera follows in real time. Tap Record to capture keyframes at 24, 25, 30 or 60 fps.</p>
+                </div>
+            </div>
+            <div class="check-row">
+                <div class="check-mark" aria-hidden="true">✓</div>
+                <div>
+                    <h3>Polish &amp; render</h3>
+                    <p>Your take lands on the timeline. Smooth Keyframes and Bake to World clean it up — then render.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Features -->
+    <section class="section">
+        <div class="section-label">Features</div>
+        <h2>A real virtual camera, not a gimmick</h2>
+        <div class="features">
+            <div class="feature">
+                <div class="feature-tag">Tracking</div>
+                <h3>Full 6DoF motion</h3>
+                <p>Position and rotation from ARKit, or Rotation Only for tripod-style shots. Artificial horizon keeps you level.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-tag">Feel</div>
+                <h3>5 cinematic presets</h3>
+                <p>Handheld, Dolly, Crane, Cinematic, Raw — plus live Sensitivity, Smoothing and Position Scale sliders to dial in your own.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-tag ios">Lens</div>
+                <h3>Live zoom &amp; lens keyframes</h3>
+                <p>iPhone-Camera-style 0.5× / 1× / 2× / 5× pills with spring animation. Focal-length changes are keyframed while you record.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-tag">Recording</div>
+                <h3>Straight to the timeline</h3>
+                <p>Record at 24, 25, 30 or 60 fps. Retake wipes the last take clean — position, rotation and lens keyframes included.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-tag">Post</div>
+                <h3>Smooth &amp; bake tools</h3>
+                <p>Smooth Keyframes softens hand jitter after the fact; Bake to World frees your take from parent constraints.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-tag ios">Privacy</div>
+                <h3>Local-only by design</h3>
+                <p>Everything runs as UDP packets on your own Wi-Fi. No cloud, no accounts, no analytics — nothing ever leaves your network.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Requirements -->
+    <section class="section">
+        <div class="section-label">Requirements</div>
+        <h2>What you need</h2>
+        <div class="req-grid">
+            <div class="req-card"><span class="mono">Phone</span><b>iPhone XS or newer</b></div>
+            <div class="req-card"><span class="mono">iOS</span><b>iOS 17.6 or later</b></div>
+            <div class="req-card"><span class="mono">Blender</span><b>Version 4.0+</b></div>
+            <div class="req-card"><span class="mono">Network</span><b>Same Wi-Fi network</b></div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Resources -->
+    <section class="section">
+        <div class="section-label">Resources</div>
+        <h2>Documentation &amp; support</h2>
+        <div class="links-grid">
+            <a href="docs.html" class="link-card">
+                <div><div class="link-label">Panel reference</div><div class="link-desc">Every control explained</div></div>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="support.html" class="link-card">
+                <div><div class="link-label">Support</div><div class="link-desc">Quick start &amp; troubleshooting</div></div>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="faq.html" class="link-card">
+                <div><div class="link-label">FAQ</div><div class="link-desc">Common questions answered</div></div>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="https://github.com/skettchdev/BlendMotion/releases" class="link-card">
+                <div><div class="link-label">GitHub Releases</div><div class="link-desc">Free addon downloads &amp; changelog</div></div>
+                <span class="link-arrow">↗</span>
+            </a>
+            <a href="privacy-policy.html" class="link-card">
+                <div><div class="link-label">Privacy policy</div><div class="link-desc">No data collected, ever</div></div>
+                <span class="link-arrow">→</span>
+            </a>
+            <a href="terms.html" class="link-card">
+                <div><div class="link-label">Terms of use</div><div class="link-desc">License &amp; usage terms</div></div>
+                <span class="link-arrow">→</span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a></p>
+    <p class="footer-proto">BM &middot; UDP 9090 &middot; preview 9091 &middot; made for people who move</p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   Live viewport demo — a miniature of the product loop:
+   track (pointer) → record (REC) → replay.
+   Vanilla JS, no dependencies. ~O(grid lines) per frame.
+   ══════════════════════════════════════════════════════ */
+(function () {
+    'use strict';
+
+    var canvas = document.getElementById('vp-canvas');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+
+    var reduceMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var css = getComputedStyle(document.documentElement);
+    var C_ORANGE = (css.getPropertyValue('--orange') || '#f5792a').trim();
+    var C_BLUE   = (css.getPropertyValue('--blue')   || '#4aa3ff').trim();
+
+    // ── sizing / DPR ──────────────────────────────
+    var W = 0, H = 0, DPR = 1;
+    function resize() {
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        var r = canvas.getBoundingClientRect();
+        W = Math.max(1, Math.round(r.width));
+        H = Math.max(1, Math.round(r.height));
+        canvas.width = W * DPR;
+        canvas.height = H * DPR;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        if (reduceMotion && parked) frame(performance.now()); // repaint static frame
+    }
+    window.addEventListener('resize', resize);
+
+    // ── 3D projection (viewer fixed, pitched down) ──
+    var VIEW_H = 2.6;                // viewer height
+    var PITCH = 0.22;                // look-down angle (rad)
+    var cp = Math.cos(PITCH), sp = Math.sin(PITCH);
+    function proj(x, y, z) {
+        var dy = y - VIEW_H;
+        var ry = dy * cp + z * sp;
+        var rz = -dy * sp + z * cp;
+        if (rz < 0.5) rz = 0.5;      // near clip
+        var F = H * 1.15;
+        return {
+            x: W / 2 + F * x / rz,
+            y: H * 0.46 - F * ry / rz,
+            z: rz
+        };
+    }
+
+    // ── state ─────────────────────────────────────
+    var target = { x: 0, z: 8 };     // where the pointer wants the cam
+    var cam = { x: 0, y: 1.2, z: 8, yaw: 0 };
+    var smoothing = 0.30;            // mirrors the app's Smoothing slider
+    var lastPointerTs = -1e9;
+    var mode = 'live';               // live | rec | replay
+    var path = [];                   // recorded {x,y,z}
+    var replayIdx = 0, replayLoops = 0;
+    var tPrev = 0;
+
+    // ── DOM refs ──────────────────────────────────
+    var hudX = document.getElementById('hud-x');
+    var hudY = document.getElementById('hud-y');
+    var hudZ = document.getElementById('hud-z');
+    var hint = document.getElementById('vp-hint');
+    var status = document.getElementById('vp-status');
+    var recBtn = document.getElementById('rec-btn');
+    var recLabel = document.getElementById('rec-label');
+    var smoothInput = document.getElementById('hud-smooth');
+    var smoothVal = document.getElementById('hud-smooth-val');
+
+    if (smoothInput) {
+        smoothInput.addEventListener('input', function () {
+            var v = parseFloat(smoothInput.value);
+            if (isFinite(v)) smoothing = Math.min(Math.max(v, 0), 0.9);
+            if (smoothVal) smoothVal.textContent = smoothing.toFixed(2);
+        });
+    }
+
+    // ── pointer → target ──────────────────────────
+    function onPoint(clientX, clientY) {
+        var r = canvas.getBoundingClientRect();
+        var nx = (clientX - r.left) / r.width;   // 0..1
+        var ny = (clientY - r.top) / r.height;   // 0..1
+        if (!isFinite(nx) || !isFinite(ny)) return;
+        nx = Math.min(Math.max(nx, 0), 1);
+        ny = Math.min(Math.max(ny, 0), 1);
+        target.x = (nx - 0.5) * 9;               // -4.5 .. 4.5
+        target.z = 13 - ny * 9;                  // top=far(13) bottom=near(4)
+        lastPointerTs = performance.now();
+        if (hint) hint.classList.add('gone');
+    }
+    canvas.addEventListener('pointermove', function (e) { onPoint(e.clientX, e.clientY); });
+    canvas.addEventListener('pointerdown', function (e) { onPoint(e.clientX, e.clientY); });
+
+    // ── REC / replay control ──────────────────────
+    recBtn.addEventListener('click', function () {
+        wake();
+        if (mode === 'live') {
+            mode = 'rec'; path = [];
+            recBtn.classList.add('recording');
+            recBtn.classList.remove('replaying');
+            recLabel.textContent = 'STOP';
+            status.textContent = 'recording';
+        } else if (mode === 'rec') {
+            if (path.length > 12) {
+                mode = 'replay'; replayIdx = 0; replayLoops = 0;
+                recBtn.classList.remove('recording');
+                recBtn.classList.add('replaying');
+                recLabel.textContent = 'REPLAY';
+                status.textContent = 'replaying take';
+            } else {
+                backToLive();
+            }
+        } else {
+            backToLive();
+        }
+    });
+    function backToLive() {
+        mode = 'live';
+        recBtn.classList.remove('recording', 'replaying');
+        recLabel.textContent = 'REC';
+        status.textContent = 'live';
+    }
+
+    // ── drawing helpers ───────────────────────────
+    function line3(a, b, color, alpha, width) {
+        var p1 = proj(a[0], a[1], a[2]);
+        var p2 = proj(b[0], b[1], b[2]);
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = width || 1;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    }
+
+    function drawGrid() {
+        var zNear = 1.5, zFar = 18, xExt = 9;
+        for (var x = -xExt; x <= xExt; x++) {
+            var major = (x === 0);
+            line3([x, 0, zNear], [x, 0, zFar],
+                major ? '#3d5a45' : '#33343a', major ? 0.9 : 0.55, major ? 1.2 : 1);
+        }
+        for (var z = 2; z <= zFar; z += 1) {
+            line3([-xExt, 0, z], [xExt, 0, z], '#33343a', 0.55 * (1 - (z - 2) / (zFar - 2)) + 0.12, 1);
+        }
+    }
+
+    // camera gizmo: small body box + frustum pyramid, facing -z (toward viewer)
+    function drawCamGizmo(px, py, pz, yaw, color, alpha) {
+        var cyw = Math.cos(yaw), syw = Math.sin(yaw);
+        function T(lx, ly, lz) {
+            return [px + lx * cyw - lz * syw, py + ly, pz + lx * syw + lz * cyw];
+        }
+        var w = 0.42, h = 0.3, d = 0.55;    // body half-extents
+        var B = [
+            T(-w, -h, -d), T(w, -h, -d), T(w, h, -d), T(-w, h, -d),  // front (toward viewer)
+            T(-w, -h, d), T(w, -h, d), T(w, h, d), T(-w, h, d)       // back
+        ];
+        var edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+        for (var i = 0; i < edges.length; i++) {
+            line3(B[edges[i][0]], B[edges[i][1]], color, alpha, 1.4);
+        }
+        // frustum opens toward the viewer (-z), like it's filming you
+        var fw = 0.85, fh = 0.55, fd = 1.1;
+        var apex = T(0, 0, -d);
+        var Fc = [T(-fw, -fh, -d - fd), T(fw, -fh, -d - fd), T(fw, fh, -d - fd), T(-fw, fh, -d - fd)];
+        for (var j = 0; j < 4; j++) {
+            line3(apex, Fc[j], color, alpha * 0.9, 1.2);
+            line3(Fc[j], Fc[(j + 1) % 4], color, alpha * 0.9, 1.2);
+        }
+        // "up" triangle on top of body (Blender camera marker)
+        line3(T(-0.18, h, -0.1), T(0, h + 0.28, -0.1), color, alpha, 1.2);
+        line3(T(0, h + 0.28, -0.1), T(0.18, h, -0.1), color, alpha, 1.2);
+    }
+
+    function drawPath(pts, color, alpha) {
+        if (pts.length < 2) return;
+        ctx.globalAlpha = alpha;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        var p0 = proj(pts[0].x, pts[0].y, pts[0].z);
+        ctx.moveTo(p0.x, p0.y);
+        for (var i = 1; i < pts.length; i++) {
+            var p = proj(pts[i].x, pts[i].y, pts[i].z);
+            ctx.lineTo(p.x, p.y);
+        }
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    }
+
+    // ── main loop ─────────────────────────────────
+    function frame(t) {
+        var dt = Math.min((t - tPrev) / 1000, 0.05) || 0.016;
+        tPrev = t;
+
+        // idle drift when untouched (unless reduced motion)
+        var idle = (t - lastPointerTs) > 3000;
+        if (idle && !reduceMotion && mode !== 'replay') {
+            var s = t / 1000;
+            target.x = Math.sin(s * 0.5) * 3.2;
+            target.z = 8.5 + Math.sin(s * 0.34) * 2.4;
+        }
+
+        if (mode === 'replay' && path.length > 1) {
+            var p = path[replayIdx];
+            cam.x = p.x; cam.y = p.y; cam.z = p.z;
+            replayIdx++;
+            if (replayIdx >= path.length) {
+                replayIdx = 0; replayLoops++;
+                if (replayLoops >= 2) backToLive();
+            }
+        } else {
+            // exponential smoothing — same idea as the app's Smoothing slider
+            var perFrame = 0.06 + 0.24 * (1 - smoothing); // 0.30 snappy → 0.06 floaty
+            var lerp = 1 - Math.pow(1 - perFrame, dt * 60);
+            cam.x += (target.x - cam.x) * lerp;
+            cam.z += (target.z - cam.z) * lerp;
+            cam.y = 1.2 + Math.sin(t / 900) * 0.06; // breathing bob
+            if (mode === 'rec') {
+                path.push({ x: cam.x, y: cam.y, z: cam.z });
+                if (path.length > 720) { path.shift(); } // ~12s cap
+            }
+        }
+        cam.yaw = -cam.x * 0.07;
+
+        // draw
+        ctx.clearRect(0, 0, W, H);
+        drawGrid();
+        if (path.length > 1) {
+            drawPath(path, mode === 'rec' ? '#ef4444' : C_BLUE, mode === 'replay' ? 0.8 : 0.55);
+        }
+        drawCamGizmo(cam.x, cam.y, cam.z, cam.yaw,
+            mode === 'replay' ? C_BLUE : C_ORANGE, 0.95);
+
+        // HUD (throttled to every other frame is overkill; direct is fine)
+        if (hudX) {
+            hudX.textContent = cam.x.toFixed(2);
+            hudY.textContent = cam.y.toFixed(2);
+            hudZ.textContent = cam.z.toFixed(2);
+        }
+
+        if (!reduceMotion || mode !== 'live' || !idle) {
+            requestAnimationFrame(frame);
+        } else {
+            // reduced motion + idle: park the loop, wake on pointer
+            parked = true;
+        }
+    }
+
+    var parked = false;
+    function wake() {
+        if (parked) { parked = false; tPrev = performance.now(); requestAnimationFrame(frame); }
+    }
+    canvas.addEventListener('pointermove', wake);
+
+    resize();
+    requestAnimationFrame(frame);
+
+    // ── checklist scroll reveal ───────────────────
+    var rows = document.querySelectorAll('.check-row');
+    if ('IntersectionObserver' in window && !reduceMotion) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e, i) {
+                if (e.isIntersecting) {
+                    var el = e.target;
+                    var idx = Array.prototype.indexOf.call(rows, el);
+                    setTimeout(function () { el.classList.add('seen'); }, idx * 120);
+                    io.unobserve(el);
+                }
+            });
+        }, { threshold: 0.3 });
+        rows.forEach(function (r) { io.observe(r); });
+    } else {
+        rows.forEach(function (r) { r.classList.add('seen'); });
+    }
+})();
+</script>
+
+</body>
+</html>

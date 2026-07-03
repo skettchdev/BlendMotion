@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Use — BlendMotion</title>
+<meta name="description" content="BlendMotion terms of use — license and usage terms for the iOS app and free Blender addon.">
+<meta name="author" content="Skettch">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg:#141416; --bg-raise:#1b1c1f; --panel:#232427; --panel-edge:#2f3034;
+    --grid-line:#26272b;
+    --orange:#f5792a; --orange-dim:rgba(245,121,42,0.14);
+    --blue:#4aa3ff; --blue-dim:rgba(74,163,255,0.14);
+    --text:#ececea; --text-2:#a9a9a5; --text-3:#6d6d6a;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',-apple-system,system-ui,sans-serif;
+    --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:var(--body);background:var(--bg);color:var(--text-2);line-height:1.7;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+    background-size:56px 56px;background-position:50% 0;
+}
+::selection{background:var(--orange);color:#141416}
+a{color:inherit}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+
+/* nav */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;
+    background:rgba(20,20,22,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--panel-edge);position:sticky;top:0;z-index:100}
+.topnav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.topnav-logo{width:30px;height:30px;border-radius:7px}
+.topnav-name{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.2px}
+.topnav-links{display:flex;align-items:center;gap:4px}
+.topnav-link{font-size:13px;font-weight:500;color:var(--text-3);text-decoration:none;
+    padding:6px 12px;border-radius:7px;transition:color .2s,background .2s}
+.topnav-link:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.topnav-link.store{color:var(--blue)}
+.topnav-link.active{color:var(--text)}
+@media(max-width:640px){.topnav-links .hide-sm{display:none}}
+
+/* page hero */
+.page-hero{max-width:860px;margin:0 auto;padding:64px 28px 40px}
+.page-eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:2.2px;
+    text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.page-hero h1{font-family:var(--disp);font-size:clamp(32px,4.5vw,44px);font-weight:700;
+    color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.page-hero .sub{font-size:16px;max-width:560px}
+
+/* layout */
+.section{max-width:860px;margin:0 auto;padding:40px 28px}
+.section-label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:2.2px;
+    text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.section h2{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--text);
+    letter-spacing:-0.5px;margin-bottom:22px}
+.divider{max-width:860px;margin:0 auto;border:none;border-top:1px solid var(--panel-edge)}
+
+/* panel + checklist rows (quick start) */
+.panel{background:var(--panel);border:1px solid var(--panel-edge);border-radius:14px;overflow:hidden}
+.panel-head{padding:12px 20px;background:var(--bg-raise);border-bottom:1px solid var(--panel-edge);
+    font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+    color:var(--text-3);display:flex;justify-content:space-between}
+.panel-head .ok{color:#4ade80}
+.step-row{display:flex;align-items:flex-start;gap:18px;padding:20px;border-bottom:1px solid var(--panel-edge)}
+.step-row:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;
+    justify-content:center;background:var(--orange-dim);color:var(--orange);
+    font-family:var(--mono);font-size:12px;font-weight:600;border:1px solid rgba(245,121,42,0.3);margin-top:2px}
+.step-row h3{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--text);
+    margin-bottom:4px;letter-spacing:-0.2px}
+.step-row p{font-size:14.5px;color:var(--text-2)}
+code,.kbd{font-family:var(--mono);font-size:12.5px;background:var(--bg);
+    border:1px solid var(--panel-edge);border-radius:5px;padding:1px 6px;color:var(--blue);white-space:nowrap}
+
+/* tips */
+.tip{border-left:3px solid var(--blue);background:var(--blue-dim);border-radius:0 var(--r) var(--r) 0;
+    padding:14px 18px;font-size:14.5px;margin-bottom:12px}
+.tip.orange{border-left-color:var(--orange);background:var(--orange-dim)}
+.tip b{color:var(--text)}
+
+/* FAQ accordions */
+.faq-group{margin-bottom:8px}
+details{background:var(--panel);border:1px solid var(--panel-edge);border-radius:var(--r);
+    margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+details[open]{border-color:rgba(245,121,42,0.4)}
+summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;
+    justify-content:space-between;gap:14px;font-family:var(--disp);font-size:15.5px;
+    font-weight:600;color:var(--text);letter-spacing:-0.2px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-family:var(--mono);font-size:16px;color:var(--text-3);
+    flex-shrink:0;transition:transform .2s,color .2s}
+details[open] summary::after{transform:rotate(45deg);color:var(--orange)}
+summary:hover::after{color:var(--orange)}
+.faq-a{padding:0 20px 18px;font-size:14.5px;color:var(--text-2)}
+.faq-a ul,.faq-a ol{padding-left:20px;margin:8px 0}
+.faq-a li{margin-bottom:4px}
+.faq-a p{margin-bottom:8px}
+.faq-a p:last-child{margin-bottom:0}
+
+/* prose (privacy/terms) */
+.prose{max-width:860px}
+.prose .clause{background:var(--panel);border:1px solid var(--panel-edge);
+    border-radius:var(--r);padding:22px;margin-bottom:12px}
+.prose .clause .mono{color:var(--orange);display:block;margin-bottom:8px}
+.prose .clause h3{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--text);
+    margin-bottom:8px;letter-spacing:-0.2px}
+.prose .clause p{font-size:14.5px;margin-bottom:8px}
+.prose .clause p:last-child{margin-bottom:0}
+.prose .clause ul{padding-left:20px;font-size:14.5px}
+.prose .clause li{margin-bottom:4px}
+.effective{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;
+    text-transform:uppercase;color:var(--text-3);margin-top:10px}
+
+/* contact card */
+.contact-card{background:var(--panel);border:1px solid var(--panel-edge);border-radius:14px;
+    padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.contact-card h3{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--text);
+    letter-spacing:-0.3px;margin-bottom:4px}
+.contact-card p{font-size:14.5px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:var(--r);
+    font-size:14.5px;font-weight:600;text-decoration:none;
+    transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+.btn:active{transform:translateY(1px)}
+.btn-store{background:var(--blue);color:#0d1117;box-shadow:0 4px 20px rgba(74,163,255,0.25)}
+.btn-store:hover{box-shadow:0 6px 26px rgba(74,163,255,0.4);transform:translateY(-1px)}
+.btn-addon{color:var(--orange);border:1px solid rgba(245,121,42,0.45);background:var(--orange-dim)}
+.btn-addon:hover{background:rgba(245,121,42,0.22);border-color:var(--orange);transform:translateY(-1px)}
+
+/* resource links */
+.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.link-card{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:var(--panel);border:1px solid var(--panel-edge);border-radius:var(--r);
+    padding:18px 20px;text-decoration:none;transition:border-color .2s,transform .15s}
+.link-card:hover{border-color:rgba(74,163,255,0.4);transform:translateY(-2px)}
+.link-label{font-family:var(--disp);font-size:15px;font-weight:600;color:var(--text)}
+.link-desc{font-size:13px;color:var(--text-3);margin-top:2px}
+.link-arrow{color:var(--text-3);font-size:15px;flex-shrink:0}
+.link-card:hover .link-arrow{color:var(--blue)}
+
+/* footer */
+footer{border-top:1px solid var(--panel-edge);text-align:center;padding:36px 24px;
+    font-size:13px;color:var(--text-3);margin-top:40px}
+footer a{color:var(--text-2);text-decoration:none}
+footer a:hover{color:var(--text)}
+.footer-proto{font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;
+    text-transform:uppercase;margin-top:8px;color:#4a4a48}
+
+a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:600px){.section{padding:32px 20px}.page-hero{padding:48px 20px 32px}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+    <a href="index.html" class="topnav-brand">
+        <img src="logo.png" alt="" class="topnav-logo" onerror="this.style.display='none'">
+        <span class="topnav-name">BlendMotion</span>
+    </a>
+    <div class="topnav-links">
+        <a href="docs.html" class="topnav-link">Docs</a>
+        <a href="support.html" class="topnav-link hide-sm">Support</a>
+        <a href="faq.html" class="topnav-link hide-sm">FAQ</a>
+        <a href="https://github.com/skettchdev/BlendMotion/releases" class="topnav-link hide-sm">GitHub&nbsp;&#8599;</a>
+        <a href="https://apps.apple.com/app/id6760141471" class="topnav-link store">App&nbsp;Store&nbsp;&#8599;</a>
+    </div>
+</nav>
+
+<header class="page-hero">
+    <div class="page-eyebrow">Terms of Use</div>
+    <h1>The fine print, kept short.</h1>
+    <p class="sub">Please read these terms before using BlendMotion.</p>
+    <div class="effective">Effective date: January 1, 2026</div>
+</header>
+<main>
+<section class="section prose">
+<div class="clause"><span class="mono">01</span><h3>Acceptance of terms</h3><p>By downloading, installing, or using BlendMotion (the &ldquo;App&rdquo;) and the accompanying Blender addon (the &ldquo;Addon&rdquo;), you agree to be bound by these Terms of Use. If you do not agree, do not use the App or Addon.</p></div>
+
+<div class="clause"><span class="mono">02</span><h3>License</h3><p>Skettch grants you a limited, non-exclusive, non-transferable, revocable license to use the App for personal or commercial 3D production work, subject to these terms.</p>
+<p>The Addon is free and open source, licensed under the <a href="https://github.com/skettchdev/BlendMotion/blob/main/LICENSE" style="color:var(--blue);">GNU General Public License v3.0</a>. Your rights to use, modify, and redistribute the Addon are governed by that license.</p></div>
+
+<div class="clause"><span class="mono">03</span><h3>Restrictions</h3><ul>
+<li>You may not reverse-engineer, decompile, or disassemble the App.</li>
+<li>You may not redistribute, sublicense, or resell the App.</li>
+<li>You may not use the App or Addon for any unlawful purpose.</li>
+</ul></div>
+
+<div class="clause"><span class="mono">04</span><h3>Intellectual property</h3><p>BlendMotion, its name, logo, and all related assets are the property of Skettch. All camera animation data you create using BlendMotion is entirely yours.</p></div>
+
+<div class="clause"><span class="mono">05</span><h3>Disclaimer of warranties</h3><p>BlendMotion is provided &ldquo;as is&rdquo; without warranties of any kind, express or implied. Skettch does not warrant that the App or Addon will be error-free, uninterrupted, or fit for any particular purpose.</p></div>
+
+<div class="clause"><span class="mono">06</span><h3>Limitation of liability</h3><p>To the fullest extent permitted by law, Skettch shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the App or Addon.</p></div>
+
+<div class="clause"><span class="mono">07</span><h3>Updates &amp; modifications</h3><p>Skettch may update the App, Addon, or these Terms at any time. Continued use after changes constitutes acceptance of the revised terms.</p></div>
+
+<div class="clause"><span class="mono">08</span><h3>Termination</h3><p>Skettch reserves the right to terminate your access to the App at any time if you violate these terms.</p></div>
+
+<div class="clause"><span class="mono">09</span><h3>Governing law</h3><p>These terms are governed by the laws of the Republic of Turkey. Any disputes shall be resolved in the courts of Istanbul, Turkey.</p></div>
+
+<div class="clause"><span class="mono">10</span><h3>Contact</h3><p>Questions about these terms? Contact us at <a href="mailto:skettchdev@gmail.com" style="color:var(--blue);">skettchdev@gmail.com</a>.</p></div>
+
+</section>
+
+<hr class="divider">
+<section class="section">
+    <div class="section-label">Resources</div>
+    <h2>More from BlendMotion</h2>
+    <div class="links-grid">
+<a href="index.html" class="link-card"><div><div class="link-label">Home</div><div class="link-desc">Back to the main page</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="docs.html" class="link-card"><div><div class="link-label">Panel reference</div><div class="link-desc">Every control explained</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="support.html" class="link-card"><div><div class="link-label">Support</div><div class="link-desc">Quick start &amp; troubleshooting</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="faq.html" class="link-card"><div><div class="link-label">FAQ</div><div class="link-desc">Common questions answered</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="https://github.com/skettchdev/BlendMotion/releases" class="link-card"><div><div class="link-label">GitHub Releases</div><div class="link-desc">Free addon downloads &amp; changelog</div></div><span class="link-arrow">&#8599;</span></a>
+<a href="privacy-policy.html" class="link-card"><div><div class="link-label">Privacy policy</div><div class="link-desc">No data collected, ever</div></div><span class="link-arrow">&#8594;</span></a>
+    </div>
+</section>
+</main>
+<footer>
+    <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a></p>
+    <p class="footer-proto">BM &middot; UDP 9090 &middot; preview 9091 &middot; made for people who move</p>
+</footer>
+</body>
+</html>

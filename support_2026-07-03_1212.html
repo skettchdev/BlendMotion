@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support — BlendMotion</title>
+<meta name="description" content="Quick start guide and troubleshooting for BlendMotion — iPhone camera tracking for Blender.">
+<meta name="author" content="Skettch">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg:#141416; --bg-raise:#1b1c1f; --panel:#232427; --panel-edge:#2f3034;
+    --grid-line:#26272b;
+    --orange:#f5792a; --orange-dim:rgba(245,121,42,0.14);
+    --blue:#4aa3ff; --blue-dim:rgba(74,163,255,0.14);
+    --text:#ececea; --text-2:#a9a9a5; --text-3:#6d6d6a;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:'Inter',-apple-system,system-ui,sans-serif;
+    --r:10px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:var(--body);background:var(--bg);color:var(--text-2);line-height:1.7;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+    background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+    background-size:56px 56px;background-position:50% 0;
+}
+::selection{background:var(--orange);color:#141416}
+a{color:inherit}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase}
+
+/* nav */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;
+    background:rgba(20,20,22,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--panel-edge);position:sticky;top:0;z-index:100}
+.topnav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.topnav-logo{width:30px;height:30px;border-radius:7px}
+.topnav-name{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.2px}
+.topnav-links{display:flex;align-items:center;gap:4px}
+.topnav-link{font-size:13px;font-weight:500;color:var(--text-3);text-decoration:none;
+    padding:6px 12px;border-radius:7px;transition:color .2s,background .2s}
+.topnav-link:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.topnav-link.store{color:var(--blue)}
+.topnav-link.active{color:var(--text)}
+@media(max-width:640px){.topnav-links .hide-sm{display:none}}
+
+/* page hero */
+.page-hero{max-width:860px;margin:0 auto;padding:64px 28px 40px}
+.page-eyebrow{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:2.2px;
+    text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.page-hero h1{font-family:var(--disp);font-size:clamp(32px,4.5vw,44px);font-weight:700;
+    color:var(--text);letter-spacing:-1px;line-height:1.1;margin-bottom:14px}
+.page-hero .sub{font-size:16px;max-width:560px}
+
+/* layout */
+.section{max-width:860px;margin:0 auto;padding:40px 28px}
+.section-label{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:2.2px;
+    text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.section h2{font-family:var(--disp);font-size:24px;font-weight:700;color:var(--text);
+    letter-spacing:-0.5px;margin-bottom:22px}
+.divider{max-width:860px;margin:0 auto;border:none;border-top:1px solid var(--panel-edge)}
+
+/* panel + checklist rows (quick start) */
+.panel{background:var(--panel);border:1px solid var(--panel-edge);border-radius:14px;overflow:hidden}
+.panel-head{padding:12px 20px;background:var(--bg-raise);border-bottom:1px solid var(--panel-edge);
+    font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+    color:var(--text-3);display:flex;justify-content:space-between}
+.panel-head .ok{color:#4ade80}
+.step-row{display:flex;align-items:flex-start;gap:18px;padding:20px;border-bottom:1px solid var(--panel-edge)}
+.step-row:last-child{border-bottom:none}
+.step-num{flex-shrink:0;width:26px;height:26px;border-radius:7px;display:flex;align-items:center;
+    justify-content:center;background:var(--orange-dim);color:var(--orange);
+    font-family:var(--mono);font-size:12px;font-weight:600;border:1px solid rgba(245,121,42,0.3);margin-top:2px}
+.step-row h3{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--text);
+    margin-bottom:4px;letter-spacing:-0.2px}
+.step-row p{font-size:14.5px;color:var(--text-2)}
+code,.kbd{font-family:var(--mono);font-size:12.5px;background:var(--bg);
+    border:1px solid var(--panel-edge);border-radius:5px;padding:1px 6px;color:var(--blue);white-space:nowrap}
+
+/* tips */
+.tip{border-left:3px solid var(--blue);background:var(--blue-dim);border-radius:0 var(--r) var(--r) 0;
+    padding:14px 18px;font-size:14.5px;margin-bottom:12px}
+.tip.orange{border-left-color:var(--orange);background:var(--orange-dim)}
+.tip b{color:var(--text)}
+
+/* FAQ accordions */
+.faq-group{margin-bottom:8px}
+details{background:var(--panel);border:1px solid var(--panel-edge);border-radius:var(--r);
+    margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+details[open]{border-color:rgba(245,121,42,0.4)}
+summary{list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;
+    justify-content:space-between;gap:14px;font-family:var(--disp);font-size:15.5px;
+    font-weight:600;color:var(--text);letter-spacing:-0.2px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';font-family:var(--mono);font-size:16px;color:var(--text-3);
+    flex-shrink:0;transition:transform .2s,color .2s}
+details[open] summary::after{transform:rotate(45deg);color:var(--orange)}
+summary:hover::after{color:var(--orange)}
+.faq-a{padding:0 20px 18px;font-size:14.5px;color:var(--text-2)}
+.faq-a ul,.faq-a ol{padding-left:20px;margin:8px 0}
+.faq-a li{margin-bottom:4px}
+.faq-a p{margin-bottom:8px}
+.faq-a p:last-child{margin-bottom:0}
+
+/* prose (privacy/terms) */
+.prose{max-width:860px}
+.prose .clause{background:var(--panel);border:1px solid var(--panel-edge);
+    border-radius:var(--r);padding:22px;margin-bottom:12px}
+.prose .clause .mono{color:var(--orange);display:block;margin-bottom:8px}
+.prose .clause h3{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--text);
+    margin-bottom:8px;letter-spacing:-0.2px}
+.prose .clause p{font-size:14.5px;margin-bottom:8px}
+.prose .clause p:last-child{margin-bottom:0}
+.prose .clause ul{padding-left:20px;font-size:14.5px}
+.prose .clause li{margin-bottom:4px}
+.effective{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;
+    text-transform:uppercase;color:var(--text-3);margin-top:10px}
+
+/* contact card */
+.contact-card{background:var(--panel);border:1px solid var(--panel-edge);border-radius:14px;
+    padding:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.contact-card h3{font-family:var(--disp);font-size:18px;font-weight:600;color:var(--text);
+    letter-spacing:-0.3px;margin-bottom:4px}
+.contact-card p{font-size:14.5px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:var(--r);
+    font-size:14.5px;font-weight:600;text-decoration:none;
+    transition:transform .15s,box-shadow .2s,background .2s,border-color .2s}
+.btn:active{transform:translateY(1px)}
+.btn-store{background:var(--blue);color:#0d1117;box-shadow:0 4px 20px rgba(74,163,255,0.25)}
+.btn-store:hover{box-shadow:0 6px 26px rgba(74,163,255,0.4);transform:translateY(-1px)}
+.btn-addon{color:var(--orange);border:1px solid rgba(245,121,42,0.45);background:var(--orange-dim)}
+.btn-addon:hover{background:rgba(245,121,42,0.22);border-color:var(--orange);transform:translateY(-1px)}
+
+/* resource links */
+.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.link-card{display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:var(--panel);border:1px solid var(--panel-edge);border-radius:var(--r);
+    padding:18px 20px;text-decoration:none;transition:border-color .2s,transform .15s}
+.link-card:hover{border-color:rgba(74,163,255,0.4);transform:translateY(-2px)}
+.link-label{font-family:var(--disp);font-size:15px;font-weight:600;color:var(--text)}
+.link-desc{font-size:13px;color:var(--text-3);margin-top:2px}
+.link-arrow{color:var(--text-3);font-size:15px;flex-shrink:0}
+.link-card:hover .link-arrow{color:var(--blue)}
+
+/* footer */
+footer{border-top:1px solid var(--panel-edge);text-align:center;padding:36px 24px;
+    font-size:13px;color:var(--text-3);margin-top:40px}
+footer a{color:var(--text-2);text-decoration:none}
+footer a:hover{color:var(--text)}
+.footer-proto{font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;
+    text-transform:uppercase;margin-top:8px;color:#4a4a48}
+
+a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media(max-width:600px){.section{padding:32px 20px}.page-hero{padding:48px 20px 32px}}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+    <a href="index.html" class="topnav-brand">
+        <img src="logo.png" alt="" class="topnav-logo" onerror="this.style.display='none'">
+        <span class="topnav-name">BlendMotion</span>
+    </a>
+    <div class="topnav-links">
+        <a href="docs.html" class="topnav-link">Docs</a>
+        <a href="support.html" class="topnav-link active hide-sm">Support</a>
+        <a href="faq.html" class="topnav-link hide-sm">FAQ</a>
+        <a href="https://github.com/skettchdev/BlendMotion/releases" class="topnav-link hide-sm">GitHub&nbsp;&#8599;</a>
+        <a href="https://apps.apple.com/app/id6760141471" class="topnav-link store">App&nbsp;Store&nbsp;&#8599;</a>
+    </div>
+</nav>
+
+<header class="page-hero">
+    <div class="page-eyebrow">Support</div>
+    <h1>From zero to first take.</h1>
+    <p class="sub">Everything you need to get started with BlendMotion &mdash; and to get unstuck fast.</p>
+</header>
+
+<main>
+<section class="section">
+    <div class="section-label">Quick start</div>
+    <h2>Six steps, one take</h2>
+    <div class="panel">
+        <div class="panel-head"><span>Quick Start Guide</span><span class="ok">~5 min</span></div>
+        <div class="step-row"><div class="step-num">01</div><div>
+            <h3>Install the Blender addon</h3>
+            <p>Download the free addon zip from <a href="https://github.com/skettchdev/BlendMotion/releases" style="color:var(--blue);">GitHub Releases</a>. In Blender, go to <code>Edit &#8594; Preferences &#8594; Add-ons &#8594; Install</code> and select the zip file.</p>
+        </div></div>
+        <div class="step-row"><div class="step-num">02</div><div>
+            <h3>Enable the addon</h3>
+            <p>Search for &ldquo;BlendMotion&rdquo; in the addon list and check the box to enable it.</p>
+        </div></div>
+        <div class="step-row"><div class="step-num">03</div><div>
+            <h3>Check the Preflight Checklist</h3>
+            <p>Open the BlendMotion panel in the 3D viewport sidebar (<code>N</code> key). The Preflight Checklist automatically verifies your IP address, active camera, port availability, and scene FPS.</p>
+        </div></div>
+        <div class="step-row"><div class="step-num">04</div><div>
+            <h3>Install the iPhone app</h3>
+            <p>Download BlendMotion from the <a href="https://apps.apple.com/app/id6760141471" style="color:var(--blue);">App Store</a>.</p>
+        </div></div>
+        <div class="step-row"><div class="step-num">05</div><div>
+            <h3>Connect</h3>
+            <p>Copy your IP address from the checklist (click the copy button), enter it in the iPhone app, and tap <b style="color:var(--text);">Connect</b>.</p>
+        </div></div>
+        <div class="step-row"><div class="step-num">06</div><div>
+            <h3>Start &amp; record</h3>
+            <p>Click <b style="color:var(--text);">Start</b> in the Blender panel. Move your iPhone to control the camera. Tap <b style="color:var(--text);">Record</b> to capture keyframes on the timeline.</p>
+        </div></div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+    <div class="section-label">Tips</div>
+    <h2>Good to know</h2>
+    <div class="tip"><b>No IP hunting.</b> The Preflight Checklist shows your local IP automatically with a one-click copy button. Just paste it into the iPhone app.</div>
+    <div class="tip orange"><b>Hold it like a camera.</b> BlendMotion works in both landscape and portrait &mdash; pick your orientation in the app&rsquo;s Settings. Landscape gives the classic cinematic framing.</div>
+    <div class="tip"><b>Same Wi-Fi network.</b> BlendMotion communicates over your local network via UDP. If your iPhone and computer are on different networks, they won&rsquo;t find each other.</div>
+</section>
+
+<hr class="divider">
+
+<section class="section">
+    <div class="section-label">Troubleshooting</div>
+    <h2>Getting unstuck</h2>
+    <details><summary>Can&rsquo;t connect?</summary><div class="faq-a">
+        <p>Check the Preflight Checklist first &mdash; it flags most issues automatically. Ensure both devices are on the same Wi-Fi network and your firewall isn&rsquo;t blocking the UDP port.</p>
+        <p>On iOS, also verify that BlendMotion has <b style="color:var(--text);">Local Network</b> permission (Settings &#8594; Privacy &amp; Security &#8594; Local Network), and disable any VPN that might route local traffic through a tunnel.</p>
+    </div></details>
+    <details><summary>Laggy tracking?</summary><div class="faq-a">
+        <p>Close other apps on your iPhone and reduce the distance to your Wi-Fi router for a stronger signal. Use a 5&thinsp;GHz network if available.</p>
+    </div></details>
+    <details><summary>Addon not showing up?</summary><div class="faq-a">
+        <p>Make sure you&rsquo;re running Blender 4.0 or later. Try restarting Blender after installation.</p>
+    </div></details>
+    <details><summary>No active camera?</summary><div class="faq-a">
+        <p>The Preflight Checklist will warn you if your scene has no camera. Add one with <code>Shift+A &#8594; Camera</code> and set it as active.</p>
+    </div></details>
+</section>
+
+<hr class="divider">
+
+<section class="section">
+    <div class="section-label">Contact</div>
+    <div class="contact-card">
+        <div>
+            <h3>Still need help?</h3>
+            <p>Reach out and we&rsquo;ll get back to you as soon as possible.</p>
+        </div>
+        <a href="mailto:skettchdev@gmail.com" class="btn btn-addon">skettchdev@gmail.com</a>
+    </div>
+</section>
+
+<hr class="divider">
+<section class="section">
+    <div class="section-label">Resources</div>
+    <h2>More from BlendMotion</h2>
+    <div class="links-grid">
+<a href="index.html" class="link-card"><div><div class="link-label">Home</div><div class="link-desc">Back to the main page</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="docs.html" class="link-card"><div><div class="link-label">Panel reference</div><div class="link-desc">Every control explained</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="faq.html" class="link-card"><div><div class="link-label">FAQ</div><div class="link-desc">Common questions answered</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="https://github.com/skettchdev/BlendMotion/releases" class="link-card"><div><div class="link-label">GitHub Releases</div><div class="link-desc">Free addon downloads &amp; changelog</div></div><span class="link-arrow">&#8599;</span></a>
+<a href="privacy-policy.html" class="link-card"><div><div class="link-label">Privacy policy</div><div class="link-desc">No data collected, ever</div></div><span class="link-arrow">&#8594;</span></a>
+<a href="terms.html" class="link-card"><div><div class="link-label">Terms of use</div><div class="link-desc">License &amp; usage terms</div></div><span class="link-arrow">&#8594;</span></a>
+    </div>
+</section>
+</main>
+<footer>
+    <p>&copy; 2026 Skettch &middot; <a href="mailto:skettchdev@gmail.com">skettchdev@gmail.com</a></p>
+    <p class="footer-proto">BM &middot; UDP 9090 &middot; preview 9091 &middot; made for people who move</p>
+</footer>
+</body>
+</html>
